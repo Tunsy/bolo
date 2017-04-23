@@ -6,29 +6,30 @@ DROP TABLE IF EXISTS Equipment;
 DROP TABLE IF EXISTS Hobby;
 DROP TABLE IF EXISTS Borrower;
 DROP TABLE IF EXISTS Owner;
+DROP TABLE IF EXISTS User;
 
-CREATE TABLE Borrower (
-	`bid` 				INT UNSIGNED NOT NULL,
-    `location` 			VARCHAR(100) NOT NULL,
+CREATE TABLE User (
+	`uid`				INT UNSIGNED NOT NULL,
+	`location` 			VARCHAR(100) NOT NULL,
     `password` 			VARCHAR(100) NOT NULL,
     `email` 			VARCHAR(100) NOT NULL,
     `name` 				VARCHAR(100) NOT NULL,
     `security_question` VARCHAR(200) NOT NULL,
     `birthday` 			DATE NOT NULL,
     `rating` 			INT NULL,
-    PRIMARY KEY			(`bid`)
+	PRIMARY KEY(`uid`)
+);
+
+CREATE TABLE Borrower (
+	`bid` 				INT UNSIGNED NOT NULL,
+    PRIMARY KEY			(`bid`),
+	FOREIGN KEY 		(`bid`) REFERENCES User(`uid`) ON DELETE CASCADE
 );
 
 CREATE TABLE Owner (
 	`oid` 				INT UNSIGNED NOT NULL,
-    `location` 			VARCHAR(100) NOT NULL,
-    `password` 			VARCHAR(100) NOT NULL,
-    `email` 			VARCHAR(100) NOT NULL,
-    `name` 				VARCHAR(100) NOT NULL,
-    `security_question` VARCHAR(200) NOT NULL,
-    `birthday` 			DATE NOT NULL,
-    `rating` 			INT NULL,
-    PRIMARY KEY			(`oid`)
+    PRIMARY KEY			(`oid`),
+    FOREIGN KEY 		(`oid`) REFERENCES User(`uid`) ON DELETE CASCADE
 );
 
 CREATE TABLE Hobby (
