@@ -18,9 +18,9 @@ public class DatabaseHelper
 {
 	Connection connection;
 	final static String ip = "";	//to change.
-	final static String user = "";	//to change
-    final static String password = "";	//to change
-    final static String database = "";	//to change
+	final static String user = "";	//to change.
+    final static String password = "";	//to change.
+    final static String database = "";	//to change.
 
 	public DatabaseHelper() throws SQLException
 	{
