@@ -13,7 +13,8 @@ CREATE TABLE User (
 	`location` 			VARCHAR(100) NOT NULL,
     `password` 			VARCHAR(100) NOT NULL,
     `email` 			VARCHAR(100) NOT NULL,
-    `name` 				VARCHAR(100) NOT NULL,
+    `firstname` 		VARCHAR(100) NOT NULL,
+    `lastname`			VARCHAR(100) NOT NULL,
     `security_question` VARCHAR(200) NOT NULL,
     `birthday` 			DATE NOT NULL,
     `rating` 			INT NULL,
@@ -53,9 +54,9 @@ CREATE TABLE Listing (
     `photo`				VARCHAR(200) NOT NULL,
     `item_name`			VARCHAR(100) NOT NULL,
     `price`				DECIMAL(10,2) NOT NULL,
-    `rating`			INT, #not sure
-    `condition`			INT NOT NULL, #or VARCHAR?
-    `availability`		VARCHAR(100) NOT NULL,	#or DATE, if derived from date
+    `rating`			DECIMAL(2,2) NOT NULL, 
+    `condition`			INT NOT NULL, 
+    `availability`		BOOLEAN,	
     `pickupOrDelivery`	VARCHAR(100) NOT NULL, 
     PRIMARY KEY			(`lid`),
     FOREIGN KEY			(`oid`) REFERENCES Owner(`oid`) ON DELETE CASCADE,
