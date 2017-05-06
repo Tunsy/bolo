@@ -2,7 +2,14 @@ from flask import Flask
 from flask import render_template
 from flask import request
 from flask import make_response
+from flaskext.mysql import MySQL
+mysql = MySQL()
 app = Flask(__name__)
+app.config['MYSQL_DATABASE_USER'] = 'root'
+app.config['MYSQL_DATABASE_PASSWORD'] = ''
+app.config['MYSQL_DATABASE_DB'] = 'bolo'
+app.config['MYSQL_DATABASE_HOST'] = 'localhost'
+mysql.init_app(app)
 
 @app.route('/')
 def show_index():
