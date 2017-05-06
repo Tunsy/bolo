@@ -32,6 +32,15 @@ angular.module('bolo', ['ionic', 'bolo.controllers'])
     controller: 'AppCtrl'
   })
 
+  .state('app.main', {
+    url: '/main',
+    views: {
+      'menuContent': {
+        templateUrl: 'templates/main.html'
+      }
+    }
+  })
+
   .state('app.search', {
     url: '/search',
     views: {
@@ -69,5 +78,5 @@ angular.module('bolo', ['ionic', 'bolo.controllers'])
     }
   });
   // if none of the above states are matched, use this as the fallback
-  $urlRouterProvider.otherwise('/app/playlists');
+  $urlRouterProvider.otherwise('/app/main');
 });
