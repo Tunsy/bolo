@@ -3,12 +3,14 @@ from flask import render_template
 from flask import request
 from flask import make_response
 from flaskext.mysql import MySQL
+import simplejson as json
+
 mysql = MySQL()
 app = Flask(__name__)
 app.config['MYSQL_DATABASE_USER'] = 'root'
-app.config['MYSQL_DATABASE_PASSWORD'] = ''
+app.config['MYSQL_DATABASE_PASSWORD'] = 'password'
 app.config['MYSQL_DATABASE_DB'] = 'bolo'
-app.config['MYSQL_DATABASE_HOST'] = 'localhost'
+app.config['MYSQL_DATABASE_HOST'] = 'localhost' #'54.153.65.246'
 mysql.init_app(app)
 
 @app.route('/')
@@ -27,7 +29,11 @@ def search():
 @app.route('/api/getListing')
 def get_listing():
 	# TODO: Pull listing details from db and return the data
-	return
+	listing_id = request.args.get('listing_id')
+	cursor = mysql.get_db().cursor()
+	cursor.execute("SELECT * FROM Room where rid = " + listing_id)
+	result = cursor.fetchone()
+	return json.dumps({'rid':result[0], 'oid':result[1], 'name':result[2], 'location':result[3], 'price':result[4]})
 
 @app.route('/signup')
 def show_sign_up():
@@ -48,8 +54,13 @@ def show_login():
 def login():
 	email = request.form['email']
 	password = request.form['password']
-	# TODO: Check if email/password is a valid combination
-	return
+	cursor = mysql.get_db().cursor()
+	cursor.execute("SELECT * FROM User where email='" + email + "' and password = '" + password + "'")
+	data = cursor.fetchone()
+	if data != None:
+		return 'Success'
+	else:
+		return 'Error'
 
 @app.route('/post')
 def show_post():
@@ -79,6 +90,8 @@ def get_user():
 	uid = request.form['uid']
 	# Return user info as JSON
 	return
+
+
 
 if __name__ == '__main__':
 	app.run()
