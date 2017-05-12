@@ -1,4 +1,3 @@
-use bolo;
 DROP TABLE IF EXISTS CustomerRentsBooking;
 DROP TABLE IF EXISTS Booking;
 DROP TABLE IF EXISTS Availability;
@@ -9,7 +8,7 @@ DROP TABLE IF EXISTS Owner;
 DROP TABLE IF EXISTS User;
 
 CREATE TABLE User (
-    `uid`               INT UNSIGNED NOT NULL,
+    `uid`               INT UNSIGNED AUTO_INCREMENT NOT NULL,
     `password`          VARCHAR(100) NOT NULL,
     `email`             VARCHAR(100) NOT NULL,
     `first_name`        VARCHAR(100) NOT NULL,
@@ -31,7 +30,7 @@ CREATE TABLE Owner (
 );
 
 CREATE TABLE Room (
-    `rid`               INT UNSIGNED NOT NULL,
+    `rid`               INT UNSIGNED AUTO_INCREMENT NOT NULL,
     `oid`               INT UNSIGNED NOT NULL,
     `name`              VARCHAR (200) NOT NULL,
     `location`          VARCHAR (200) NOT NULL, -- Might use open-source thingie
@@ -71,7 +70,7 @@ CREATE TABLE Availability (
 );
 
 CREATE TABLE Booking (
-    `bid`               INT UNSIGNED NOT NULL,
+    `bid`               INT UNSIGNED AUTO_INCREMENT NOT NULL,
     `cid`               INT UNSIGNED NOT NULL,
     `rid`               INT UNSIGNED NOT NULL,
     `grand_total_price` DECIMAL(10,2) NOT NULL,
