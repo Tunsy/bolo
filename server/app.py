@@ -33,7 +33,11 @@ def get_listing():
 	cursor = mysql.get_db().cursor()
 	cursor.execute("SELECT * FROM Room where rid = " + listing_id)
 	result = cursor.fetchone()
-	return json.dumps({'rid':result[0], 'oid':result[1], 'name':result[2], 'location':result[3], 'price':result[4]})
+	return json.dumps({'rid':result[0], 'oid':result[1], 'name':result[2], 'location':result[3], 'price':result[4], 
+		'capacity':result[5], 'description':result[6], 'email':result[7], 'phone_number':result[8],
+		'amenities': {'wifi':result[9], 'white_board':result[10], 'telephone':result[11], 'reception':result[12],
+		'ethernet':result[13], 'parking':result[14], 'refreshment':result[15], 'vending_machine':result[16],
+		'projector':result[17], 'speaker':result[18], 'fax_machine':result[19]}})
 
 @app.route('/signup')
 def show_sign_up():
