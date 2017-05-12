@@ -1,5 +1,5 @@
 use bolo;
-DROP TABLE IF EXISTS CustomerRentsBooking
+DROP TABLE IF EXISTS CustomerRentsBooking;
 DROP TABLE IF EXISTS Booking;
 DROP TABLE IF EXISTS Availability;
 DROP TABLE IF EXISTS Room_Photo;
@@ -19,9 +19,9 @@ CREATE TABLE User (
 );
 
 CREATE TABLE Customer (
-    `bid`               INT UNSIGNED NOT NULL,
-    PRIMARY KEY         (`bid`),
-    FOREIGN KEY         (`bid`) REFERENCES User(`uid`) ON DELETE CASCADE
+    `cid`               INT UNSIGNED NOT NULL,
+    PRIMARY KEY         (`cid`),
+    FOREIGN KEY         (`cid`) REFERENCES User(`uid`) ON DELETE CASCADE
 );
 
 CREATE TABLE Owner (
@@ -51,7 +51,7 @@ CREATE TABLE Room (
     `projector`         BOOLEAN,
     `speaker`           BOOLEAN,
     `fax_machine`       BOOLEAN,
-    PRIMARY KEY         (`hid`),
+    PRIMARY KEY         (`rid`),
     FOREIGN KEY         (`oid`) REFERENCES Owner(`oid`) ON DELETE NO ACTION
 );
 
