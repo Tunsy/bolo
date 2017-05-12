@@ -45,38 +45,78 @@ angular.module('bolo', ['ionic', 'bolo.controllers'])
     url: '/search',
     views: {
       'menuContent': {
-        templateUrl: 'templates/search.html'
+        templateUrl: 'templates/search.html',
+        controller: 'SearchCtrl'
       }
     }
   })
 
-  .state('app.browse', {
-      url: '/browse',
-      views: {
-        'menuContent': {
-          templateUrl: 'templates/browse.html'
-        }
-      }
-    })
-    .state('app.playlists', {
-      url: '/playlists',
-      views: {
-        'menuContent': {
-          templateUrl: 'templates/playlists.html',
-          controller: 'PlaylistsCtrl'
-        }
-      }
-    })
-
-  .state('app.single', {
-    url: '/playlists/:playlistId',
+  .state('app.listing', {
+    url: '/listing/:listingId',
     views: {
       'menuContent': {
-        templateUrl: 'templates/playlist.html',
-        controller: 'PlaylistCtrl'
+        templateUrl: 'templates/listing.html',
+        controller: 'ListingCtrl'
       }
     }
-  });
+  })
+
+  .state('app.reservations', {
+    url: '/reservations',
+    views: {
+      'menuContent': {
+        templateUrl: 'templates/reservations.html',
+        controller: 'ReservationsCtrl'
+      }
+    }
+  })
+
+  .state('app.reservation', {
+    url: '/reservations/:reservationId',
+    views: {
+      'menuContent': {
+        templateUrl: 'templates/reservation.html',
+        controller: 'ReservationCtrl'
+      }
+    }
+  })
+
+  // .state('app.search', {
+  //   url: '/search',
+  //   views: {
+  //     'menuContent': {
+  //       templateUrl: 'templates/search.html'
+  //     }
+  //   }
+  // })
+
+  // .state('app.browse', {
+  //     url: '/browse',
+  //     views: {
+  //       'menuContent': {
+  //         templateUrl: 'templates/browse.html'
+  //       }
+  //     }
+  //   })
+  //   .state('app.playlists', {
+  //     url: '/playlists',
+  //     views: {
+  //       'menuContent': {
+  //         templateUrl: 'templates/playlists.html',
+  //         controller: 'PlaylistsCtrl'
+  //       }
+  //     }
+  //   })
+
+  // .state('app.single', {
+  //   url: '/playlists/:playlistId',
+  //   views: {
+  //     'menuContent': {
+  //       templateUrl: 'templates/playlist.html',
+  //       controller: 'PlaylistCtrl'
+  //     }
+  //   }
+  // });
   // if none of the above states are matched, use this as the fallback
   $urlRouterProvider.otherwise('/app/main');
 });

@@ -14,7 +14,8 @@ angular.module('bolo.controllers', [])
 
   // Create the login modal that we will use later
   $ionicModal.fromTemplateUrl('templates/login.html', {
-    scope: $scope
+    scope: $scope,
+    animation: 'slide-in-up'
   }).then(function(modal) {
     $scope.modal = modal;
   });
@@ -39,6 +40,11 @@ angular.module('bolo.controllers', [])
       $scope.closeLogin();
     }, 1000);
   };
+})
+
+.controller('ReservationsCtrl', function($scope) {
+  if (window.localStorage.getItem('uid') === null)
+      $scope.modal.show();
 })
 
 .controller('PlaylistsCtrl', function($scope) {
