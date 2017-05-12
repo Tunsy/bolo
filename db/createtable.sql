@@ -35,6 +35,18 @@ CREATE TABLE Room (
     `name`              VARCHAR (200) NOT NULL,
     `location`          VARCHAR (200) NOT NULL, -- Might use open-source thingie
     `price`             DECIMAL (10,2) NOT NULL,
+    `description`       VARCHAR (2000),
+    `wifi`              BOOLEAN,
+    `white_board`       BOOLEAN,
+    `phone`             BOOLEAN,
+    `reception`         BOOLEAN,
+    `ethernet`          BOOLEAN,
+    `parking`           BOOLEAN,
+    `refreshment`       BOOLEAN,
+    `vending_machine`   BOOLEAN,
+    `projector`         BOOLEAN,
+    `speaker`           BOOLEAN,
+    `fax_machine`       BOOLEAN,
     PRIMARY KEY			(`hid`),
     FOREIGN KEY         (`oid`) REFERENCES Owner(`oid`) ON DELETE NO ACTION
 );
