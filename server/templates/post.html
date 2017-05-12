@@ -1,0 +1,138 @@
+{% extends "layout.html" %}
+{% block body %}
+    <div class="listing-form">
+        <div class="ui form">
+            <h3 class="ui dividing header">Contact Information</h4>
+            <div class="field">
+                <label>Name</label>
+                <div class="fields">
+                    <div class="seven wide field">
+                        <input type="text" name="first-name" placeholder="First Name"> 
+                    </div>
+                    <div class="two wide field">
+                        <input type="text" name="middle-inital" placeholder="M.I."> 
+                    </div>
+                    <div class="seven wide field">
+                        <input type="text" name="last-name" placeholder="Last Name"> 
+                    </div>
+                </div>
+                <div class="three fields">
+                    <div class="field">
+                        <label>Company</label>
+                        <input type="text" name="company-name" placeholder="Company Name"> 
+                    </div>
+                    <div class="field">
+                        <label>Email</label>
+                         <input type="text" name="email" placeholder="Email"> 
+                    </div>
+                    <div class="field">
+                        <label>Phone number</label>
+                         <input type="text" name="phone" placeholder="Phone Number"> 
+                    </div>
+                </div>
+            </div>
+            <h3 class="ui dividing header">Room information</h4>
+            <div class="field">
+                <label>Address</label>
+                <div class="fields">
+                    <div class="twelve wide field">
+                        <input type="text" name="address" placeholder="Address"> 
+                    </div>
+                    <div class="four wide field">
+                        <input type="text" name="room" placeholder="Room #"> 
+                    </div>
+                </div>
+                <label>Room info</label>
+                <div class="fields">
+                    <div class="four wide field">
+                        <input type="text" name="cost" placeholder="Cost"> 
+                    </div>
+                </div>
+            </div>
+            <h3 class="ui dividing header">Amenities</h4>
+            <div class="field">
+                <div class="inline fields">
+                    <div class="field four wide column">
+                      <div class="ui checkbox">
+                        <input type="radio" name="wifi" tabindex="0" class="hidden">
+                        <label>Free Wifi</label>
+                      </div>
+                    </div>
+                    <div class="field four wide column">
+                      <div class="ui checkbox">
+                        <input type="radio" name="ethernet" tabindex="0" class="hidden">
+                        <label>Ethernet</label>
+                      </div>
+                    </div>
+                    <div class="field four wide column">
+                      <div class="ui checkbox">
+                        <input type="radio" name="parking" tabindex="0" class="hidden">
+                        <label>Parking</label>
+                      </div>
+                    </div>
+                    <div class="field four wide column">
+                      <div class="ui checkbox">
+                        <input type="radio" name="telephone" tabindex="0" class="hidden">
+                        <label>Telephone</label>
+                      </div>
+                    </div>
+                </div>
+                <div class="inline fields">
+                    <div class="field four wide column">
+                      <div class="ui checkbox">
+                        <input type="radio" name="refreshments" checked="" tabindex="0" class="hidden">
+                        <label>Refreshments</label>
+                      </div>
+                    </div>
+                    <div class="field four wide column">
+                      <div class="ui checkbox">
+                        <input type="radio" name="vending-machine" tabindex="0" class="hidden">
+                        <label>Vending machine</label>
+                      </div>
+                    </div>
+                    <div class="field four wide column">
+                      <div class="ui checkbox">
+                        <input type="radio" name="fax-machine" tabindex="0" class="hidden">
+                        <label>Fax machine</label>
+                      </div>
+                    </div>
+                    <div class="field four wide column">
+                      <div class="ui checkbox">
+                        <input type="radio" name="speakers" tabindex="0" class="hidden">
+                        <label>Speakers</label>
+                      </div>
+                    </div>
+                </div>
+                <div class="inline fields">
+                    <div class="field four wide column">
+                      <div class="ui checkbox">
+                        <input type="radio" name="projector" checked="" tabindex="0" class="hidden">
+                        <label>Projector</label>
+                      </div>
+                    </div>
+                    <div class="field four wide column">
+                      <div class="ui checkbox">
+                        <input type="radio" name="whiteboard" tabindex="0" class="hidden">
+                        <label>Whiteboard</label>
+                      </div>
+                    </div>
+                    <div class="field four wide column">
+                      <div class="ui checkbox">
+                        <input type="radio" name="instant-booking " tabindex="0" class="hidden">
+                        <label>Instant Booking</label>
+                      </div>
+                    </div>
+                    <div class="field four wide column">
+                      <div class="ui checkbox">
+                        <input type="radio" name="amenities" tabindex="0" class="hidden">
+                        <label>NDA</label>
+                      </div>
+                    </div>
+                </div>
+                <div class="listing-submit">
+                    <button class="positive ui large button">Post listing</button>
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock %}
