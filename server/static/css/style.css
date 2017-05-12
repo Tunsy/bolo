@@ -1,11 +1,26 @@
 .listing-form{
-    width:80%;
+    width:60%;
+    margin-left:auto;
+    margin-right:auto;
+    margin-top: 20px;
+    margin-bottom: 20px;
+    padding: 15px;
+    background-color: white;
+    border-radius: 15px;
+}
+
+.listing-submit{
+    margin-top: 45px;
     margin-left:auto;
     margin-right:auto;
 }
 
-.listing-submit{
-    margin-top: 20px;
-    margin-left:auto;
-    margin-right:auto;
+html {
+    height: 100%;
+}
+body {
+    height: 100%;
+    margin: 0;
+    background-repeat: no-repeat;
+    background-attachment: fixed;
 }
