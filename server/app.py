@@ -113,10 +113,32 @@ def post():
 	else:
 		return 'Error'
 
-@app.route('/api/book')
+@app.route('/api/book', methods=['POST'])
 def book():
 	# Book the reservation
-	return
+	conn = mysql.connect()
+	userID = request.form['userID']
+	roomID = request.form['roomID']
+	cursor = conn.cursor()
+
+        cursor.execute("SELECT price FROM Room WHERE rid=" + roomID)
+        data = cursor.fetchone()
+        price = data[0]
+        
+        cursor.execute("SELECT start_datetime, end_datetime FROM Availability WHERE rid=" + roomID)
+        data = cursor.fetchone()
+        start_time = data[0]
+        end_time = data[1]
+	try:
+                cursor.execute("INSERT INTO Booking(cid, rid, grand_total_price, subtotal_price, start_datetime, end_datetime) " +
+                       "VALUES('" + userID + "', '" + roomID + "', " + str(price) + ", 10.00, '" + str(start_time) + "', '" + str(end_time) + "')") 
+                last_row = cursor.lastrowid
+                if last_row != None:
+                        conn.commit()
+                        return 'Success'
+        except:
+                return 'Failure'
+	
 
 @app.route('/api/rate')
 def rate():
