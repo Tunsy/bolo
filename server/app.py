@@ -1,7 +1,4 @@
-from flask import Flask
-from flask import render_template
-from flask import request
-from flask import make_response
+from flask import Flask, render_template, request, make_response
 from flaskext.mysql import MySQL
 import simplejson as json
 
@@ -73,7 +70,48 @@ def show_post():
 @app.route('/api/post', methods=['POST'])
 def post():
 	# TODO: Insert listing into database
-	return
+	uid = request.form['uid']
+	name = request.form['name']
+	location = request.form['location']
+	price = request.form['price']
+	capacity = request.form['capacity']
+	description = request.form['description']
+	email = request.form['email']
+	phone_number = request.form['phone_number']
+	wifi = request.form['wifi']
+	white_board = request.form['white_board']
+	telephone = request.form['telephone']
+	reception = request.form['reception']
+	ethernet = request.form['ethernet']
+	parking = request.form['parking']
+	refreshment = request.form['refreshment']
+	vending_machine = request.form['vending_machine']
+	projector = request.form['projector']
+	speaker = request.form['speaker']
+	fax_machine = request.form['fax_machine']
+	conn = mysql.connect()
+	cursor = conn.cursor()
+	executeStatement = ("INSERT INTO Room(oid, name, location, " +
+                           "price, capacity, description, email, " +
+                           "phone_number, wifi, white_board, telephone, " +
+                           "reception, ethernet, parking, refreshment, " +
+                           "vending_machine, projector, speaker, fax_machine)" +
+                           "VALUES('" + uid + "', '" + name + "', '" +
+                           location + "', '" + price + "', '" + capacity +
+                           "', '" + description + "', '" + email + "', '" +
+                           phone_number + "', '" + wifi + "', '" + white_board +
+                           "', '" + telephone + "', '" + reception + "', '" +
+                           ethernet + "', '" + parking + "', '" + refreshment +
+                           "', '" + vending_machine + "', '" + projector +
+                           "', '" + speaker + "', '" + fax_machine + "')")
+	cursor.execute(executeStatement)
+	cursor.execute("SELECT rid FROM Room ORDER BY rid DESC LIMIT 1")
+	data = cursor.fetchone()
+	if data != None:
+                conn.commit()
+		return str(data[0])
+	else:
+		return 'Error'
 
 @app.route('/api/book')
 def book():
@@ -92,8 +130,12 @@ def show_profile():
 @app.route('/api/getUser')
 def get_user():
 	uid = request.form['uid']
+	cursor = mysql.get_db().cursor()
+	cursor.execute("SELECT * FROM User where uid='" + uid + "'")
+	data = cursor.fetchone()
 	# Return user info as JSON
-	return
+	return json.dumps({"email": data[2], "first_name": data[3],
+                           "last_name": data[4], "rating": data[5]})
 
 
 
