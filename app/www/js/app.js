@@ -6,7 +6,7 @@
 // 'bolo.controllers' is found in controllers.js
 angular.module('bolo', ['ionic', 'bolo.controllers'])
 
-.run(function($ionicPlatform) {
+.run(function($ionicPlatform, $ionicHistory) {
   $ionicPlatform.ready(function() {
     // Hide the accessory bar by default (remove this to show the accessory bar above the keyboard
     // for form inputs)

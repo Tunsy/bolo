@@ -1,6 +1,6 @@
 angular.module('bolo.controllers', [])
 
-.controller('AppCtrl', function($scope, $ionicModal, $timeout) {
+.controller('AppCtrl', function($scope, $ionicModal, $timeout, $ionicHistory) {
 
   // With the new view caching in Ionic, Controllers are only called
   // when they are recreated or on app start, instead of every page change.
@@ -23,6 +23,7 @@ angular.module('bolo.controllers', [])
   // Triggered in the login modal to close it
   $scope.closeLogin = function() {
     $scope.modal.hide();
+    $ionicHistory.backView().go();
   };
 
   // Open the login modal
@@ -45,6 +46,10 @@ angular.module('bolo.controllers', [])
 .controller('ReservationsCtrl', function($scope) {
   if (window.localStorage.getItem('uid') === null)
       $scope.modal.show();
+})
+
+.controller('ListingCtrl', function($scope) {
+  
 })
 
 .controller('PlaylistsCtrl', function($scope) {
