@@ -1,6 +1,7 @@
 DROP TABLE IF EXISTS CustomerRentsBooking;
 DROP TABLE IF EXISTS Booking;
 DROP TABLE IF EXISTS Availability;
+DROP TABLE IF EXISTS Room_Rating;
 DROP TABLE IF EXISTS Room_Photo;
 DROP TABLE IF EXISTS Room;
 DROP TABLE IF EXISTS Customer;
@@ -30,12 +31,27 @@ CREATE TABLE Owner (
 );
 
 CREATE TABLE Room (
-	`rid`               INT UNSIGNED NOT NULL,
+	`rid`               INT UNSIGNED AUTO_INCREMENT NOT NULL,
     `oid`               INT UNSIGNED NOT NULL,
     `name`              VARCHAR (200) NOT NULL,
     `location`          VARCHAR (200) NOT NULL, -- Might use open-source thingie
     `price`             DECIMAL (10,2) NOT NULL,
-    PRIMARY KEY			(`rid`),
+    `capacity`          INT UNSIGNED NOT NULL,
+    `description`       VARCHAR (2000),
+    `email`             VARCHAR (200) NOT NULL,
+    `phone_number`      VARCHAR (10),              
+    `wifi`              BOOLEAN,
+    `white_board`       BOOLEAN,
+    `telephone`         BOOLEAN,
+    `reception`         BOOLEAN,
+    `ethernet`          BOOLEAN,
+    `parking`           BOOLEAN,
+    `refreshment`       BOOLEAN,
+    `vending_machine`   BOOLEAN,
+    `projector`         BOOLEAN,
+    `speaker`           BOOLEAN,
+    `fax_machine`       BOOLEAN,
+    PRIMARY KEY         (`rid`),
     FOREIGN KEY         (`oid`) REFERENCES Owner(`oid`) ON DELETE NO ACTION
 );
 
@@ -44,6 +60,14 @@ CREATE TABLE Room_Photo (
     `photo_url`         VARCHAR(300) NOT NULL,
     PRIMARY KEY         (`rid`),
     FOREIGN KEY         (`rid`) REFERENCES Room(`rid`) ON DELETE NO ACTION
+);
+
+CREATE TABLE Room_Rating(
+    `rid`				INT UNSIGNED NOT NULL,
+    `rating`			INT UNSIGNED NOT NULL,
+    `comments`			VARCHAR(1500),
+    PRIMARY KEY 		(`rid`),
+	FOREIGN KEY         (`rid`) REFERENCES Room(`rid`) ON DELETE NO ACTION
 );
 
 CREATE TABLE Availability (
@@ -56,7 +80,7 @@ CREATE TABLE Availability (
 
 CREATE TABLE Booking (
 	`bid`				INT UNSIGNED NOT NULL,
-	`cid`				INT UNSIGNED,
+	`cid`				INT UNSIGNED NOT NULL,
     `rid`				INT UNSIGNED NOT NULL,
     `grand_total_price`	DECIMAL(10,2) NOT NULL,
     `subtotal_price`    DECIMAL(10,2) NOT NULL,
