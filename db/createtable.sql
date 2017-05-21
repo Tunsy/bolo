@@ -52,6 +52,8 @@ CREATE TABLE Room (
     `speaker`           BOOLEAN,
     `fax_machine`       BOOLEAN,
     `rating`			DECIMAL(3,2) UNSIGNED NULL,
+    `latitude`			DECIMAL(9,7) NOT NULL,
+    `longitude`			DECIMAL(11,7) NOT NULL,
     PRIMARY KEY         (`rid`),
     FOREIGN KEY         (`oid`) REFERENCES Owner(`oid`) ON DELETE NO ACTION
 );

@@ -86,7 +86,7 @@ def show_post():
 @app.route('/api/post', methods=['POST'])
 def post():
 	# TODO: Insert listing into database
-	uid = request.form['uid']
+	uid = request.form['uid']       #must be in owner
 	name = request.form['name']
 	location = request.form['location']
 	price = request.form['price']
@@ -105,13 +105,19 @@ def post():
 	projector = request.form['projector']
 	speaker = request.form['speaker']
 	fax_machine = request.form['fax_machine']
+	latitude = request.form['latitude']
+	longitude = request.form['longitude']
+	photo_url = request.form['photo_url']
+	start_datetime = request.form['start_datetime']
+	end_datetime = request.form['end_datetime']
 	conn = mysql.connect()
 	cursor = conn.cursor()
 	executeStatement = ("INSERT INTO Room(oid, name, location, " +
                            "price, capacity, description, email, " +
                            "phone_number, wifi, white_board, telephone, " +
                            "reception, ethernet, parking, refreshment, " +
-                           "vending_machine, projector, speaker, fax_machine)" +
+                           "vending_machine, projector, speaker, fax_machine, " +
+                           "latitude, longitude)" +
                            "VALUES('" + uid + "', '" + name + "', '" +
                            location + "', '" + price + "', '" + capacity +
                            "', '" + description + "', '" + email + "', '" +
@@ -119,15 +125,35 @@ def post():
                            "', '" + telephone + "', '" + reception + "', '" +
                            ethernet + "', '" + parking + "', '" + refreshment +
                            "', '" + vending_machine + "', '" + projector +
-                           "', '" + speaker + "', '" + fax_machine + "')")
-	cursor.execute(executeStatement)
+                           "', '" + speaker + "', '" + fax_machine + "', '" +
+                           latitude + "', '" + longitude + "')")
+        cursor.execute(executeStatement)
 	cursor.execute("SELECT rid FROM Room ORDER BY rid DESC LIMIT 1")
-	data = cursor.fetchone()
-	if data != None:
+	roomData = cursor.fetchone()
+	if roomData != None:
 		conn.commit()
-		return str(data[0])
 	else:
-		return 'Error'
+		return 'Error: Unable to add room'
+        executeStatementPhoto = ("INSERT INTO Room_Photo VALUES('" +
+                                 str(roomData[0]) + "', '" + photo_url + "')")
+        cursor.execute(executeStatementPhoto)
+	cursor.execute("SELECT rid FROM Room_Photo WHERE rid =" + str(roomData[0]))
+        photoData = cursor.fetchone()
+	if photoData != None:
+		conn.commit()
+	else:
+		return 'Error: Unable to add room photo'
+	executeStatementAvailability = ("INSERT INTO Availability VALUES('" +
+                                 str(roomData[0]) + "', '" + start_datetime +
+                                 "', '" + end_datetime + "')")
+        cursor.execute(executeStatementAvailability)
+	cursor.execute("SELECT rid FROM Availability WHERE rid =" + str(roomData[0]))
+        availabilityData = cursor.fetchone()
+	if availabilityData != None:
+		conn.commit()
+		return str(roomData[0])      #room's id
+	else:
+		return 'Error: Unable to add room availability'
 
 @app.route('/api/book', methods=['POST'])
 def book():
@@ -194,7 +220,7 @@ def get_user():
 	return json.dumps({"email": data[2], "first_name": data[3],
                            "last_name": data[4], "rating": data[5]})
 
-@app.route('/api/getReservations')
+@app.route('/api/getReservations', methods=['POST'])
 def get_reservations():
         conn = mysql.connect()
         userID = request.form['userID']
@@ -202,13 +228,14 @@ def get_reservations():
         
         cursor.execute("SELECT * FROM booking WHERE cid=" + userID)
         result = cursor.fetchall()
+        bookingList = []
         if result:
-                full_results = ""
-                for row in result:
-                        full_results += json.dumps({'bid':row[0], 'cid':row[1], 'rid':row[2], 'grand_total_price':row[3], 'subtotal_price':row[4], 'start_datetime':str(row[5]), 'end_datetime':str(row[6])})
-                return full_results
+            for row in result:
+                bookingDict = {'bid':row[0], 'cid':row[1], 'rid':row[2], 'grand_total_price':row[3], 'subtotal_price':row[4], 'start_datetime':str(row[5]), 'end_datetime':str(row[6])}
+                bookingList.append(bookingDict)
+            return json.dumps(bookingList)
         else:
-                return 'No Bookings Found'
+            return 'No Bookings Found'
 
 if __name__ == '__main__':
 	app.run()
