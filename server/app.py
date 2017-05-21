@@ -4,8 +4,8 @@ import simplejson as json
 
 mysql = MySQL()
 app = Flask(__name__)
-app.config['MYSQL_DATABASE_USER'] = 'root'
-app.config['MYSQL_DATABASE_PASSWORD'] = 'password'
+app.config['MYSQL_DATABASE_USER'] = 'mytestuser'
+app.config['MYSQL_DATABASE_PASSWORD'] = 'mypassword'
 app.config['MYSQL_DATABASE_DB'] = 'bolo'
 app.config['MYSQL_DATABASE_HOST'] = 'localhost' #'54.153.65.246'
 mysql.init_app(app)
@@ -44,9 +44,25 @@ def show_sign_up():
 def signup():
 	email = request.form['email']
 	password = request.form['password']
+	fullName = request.form['name'].split()
+	firstName = fullName[0]
+	lastName = fullName[1]
 	# TODO: Create account and return UID and access token
-	return
-
+        conn = mysql.connect()
+	cursor = conn.cursor()
+	executeStatement = ("INSERT INTO User(password, email, first_name," +
+                           "last_name) VALUES('" + password + "', '" + email +
+                           "', '" + firstName + "', '" + lastName + "')")
+	cursor.execute(executeStatement)
+	checkStatement = ("SELECT uid FROM User WHERE password='" + password +
+                       "' AND email='" + email + "' ORDER BY uid DESC LIMIT 1")
+	cursor.execute(checkStatement)
+	data = cursor.fetchone()
+	if data != None:
+		conn.commit()
+		return str(data[0])
+	else:
+		return 'Error'
 @app.route('/login')
 def show_login():
 	return render_template('login.html')
@@ -158,7 +174,21 @@ def get_user():
 	return json.dumps({"email": data[2], "first_name": data[3],
                            "last_name": data[4], "rating": data[5]})
 
-
+@app.route('/api/getReservations')
+def get_reservations():
+        conn = mysql.connect()
+        userID = request.form['userID']
+        cursor = conn.cursor()
+        
+        cursor.execute("SELECT * FROM booking WHERE cid=" + userID)
+        result = cursor.fetchall()
+        if result:
+                full_results = ""
+                for row in result:
+                        full_results += json.dumps({'bid':row[0], 'cid':row[1], 'rid':row[2], 'grand_total_price':row[3], 'subtotal_price':row[4], 'start_datetime':str(row[5]), 'end_datetime':str(row[6])})
+                return full_results
+        else:
+                return 'No Bookings Found'
 
 if __name__ == '__main__':
 	app.run()
