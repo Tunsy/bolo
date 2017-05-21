@@ -51,6 +51,7 @@ CREATE TABLE Room (
     `projector`         BOOLEAN,
     `speaker`           BOOLEAN,
     `fax_machine`       BOOLEAN,
+    `rating`			DECIMAL(3,2) UNSIGNED NULL,
     PRIMARY KEY         (`rid`),
     FOREIGN KEY         (`oid`) REFERENCES Owner(`oid`) ON DELETE NO ACTION
 );
@@ -63,10 +64,11 @@ CREATE TABLE Room_Photo (
 );
 
 CREATE TABLE Room_Rating(
+	`rrid`				INT UNSIGNED NOT NULL AUTO_INCREMENT,
     `rid`				INT UNSIGNED NOT NULL,
     `rating`			INT UNSIGNED NOT NULL,
     `comments`			VARCHAR(1500),
-    PRIMARY KEY 		(`rid`),
+    PRIMARY KEY 		(`rrid`),
 	FOREIGN KEY         (`rid`) REFERENCES Room(`rid`) ON DELETE NO ACTION
 );
 

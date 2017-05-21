@@ -132,9 +132,9 @@ def post():
 @app.route('/api/book', methods=['POST'])
 def book():
 	# Book the reservation
-	conn = mysql.connect()
 	userID = request.form['userID']
 	roomID = request.form['roomID']
+        conn = mysql.connect()
 	cursor = conn.cursor()
 
 	cursor.execute("SELECT price FROM Room WHERE rid=" + roomID)
@@ -155,10 +155,31 @@ def book():
 		return 'Failure'
 	
 
-@app.route('/api/rate')
+@app.route('/api/rate', methods=['POST'])
 def rate():
+        bid = request.form['bid']
+	rating = request.form['rating']
+	comments = request.form['comments']
+
+	conn = mysql.connect()
+	cursor = conn.cursor()
+
+	cursor.execute("SELECT rid FROM Booking WHERE bid=" + bid)
+        data = cursor.fetchone()
+        rid = data[0]
+        try:
+                cursor.execute("INSERT INTO Room_Rating(rid, rating, comments) VALUES('" + str(rid) + "', '" + str(rating) + "', '" + comments + "')")
+                last_row = cursor.lastrowid
+                if last_row != None:
+                        conn.commit()
+                        return 'Success'
+	except:
+		return 'Failure'
+
+        cursor.execute("UPDATE Room SET rating = (SELECT AVG(rating) from Room_Rating WHERE rid = " + str(rid) + ") WHERE rid = " + str(rid))
+        conn.commit()
 	# Update the rating of the listing in the database
-	return
+	return "Success"
 
 @app.route('/dashboard')
 def show_profile():
