@@ -1,14 +1,16 @@
 from flask import Flask, render_template, request, make_response
 from flaskext.mysql import MySQL
+from flask_cors import CORS, cross_origin
 import simplejson as json
 
 mysql = MySQL()
 app = Flask(__name__)
-app.config['MYSQL_DATABASE_USER'] = 'mytestuser'
-app.config['MYSQL_DATABASE_PASSWORD'] = 'mypassword'
+app.config['MYSQL_DATABASE_USER'] = 'root'
+app.config['MYSQL_DATABASE_PASSWORD'] = ''
 app.config['MYSQL_DATABASE_DB'] = 'bolo'
 app.config['MYSQL_DATABASE_HOST'] = 'localhost' #'54.153.65.246'
 mysql.init_app(app)
+CORS(app)
 
 @app.route('/')
 def show_index():
@@ -25,16 +27,16 @@ def search():
 
 @app.route('/api/getListing')
 def get_listing():
-	# TODO: Pull listing details from db and return the data
 	listing_id = request.args.get('listing_id')
 	cursor = mysql.get_db().cursor()
-	cursor.execute("SELECT * FROM Room where rid = " + listing_id)
+	cursor.execute("SELECT * FROM Room R, Room_Photo P WHERE R.rid = " + listing_id + " AND R.rid = P.rid")
 	result = cursor.fetchone()
+	print result
 	return json.dumps({'rid':result[0], 'oid':result[1], 'name':result[2], 'location':result[3], 'price':result[4], 
 		'capacity':result[5], 'description':result[6], 'email':result[7], 'phone_number':result[8],
 		'amenities': {'wifi':result[9], 'white_board':result[10], 'telephone':result[11], 'reception':result[12],
 		'ethernet':result[13], 'parking':result[14], 'refreshment':result[15], 'vending_machine':result[16],
-		'projector':result[17], 'speaker':result[18], 'fax_machine':result[19]}})
+		'projector':result[17], 'speaker':result[18], 'fax_machine':result[19]}, 'photo':result[21]})
 
 @app.route('/signup')
 def show_sign_up():

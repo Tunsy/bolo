@@ -12,7 +12,6 @@ angular.module('bolo.controllers', [])
   // Form data for the login modal
   $scope.loginData = {};
 
-  // Create the login modal that we will use later
   $ionicModal.fromTemplateUrl('templates/login.html', {
     scope: $scope,
     animation: 'slide-in-up'
@@ -20,23 +19,18 @@ angular.module('bolo.controllers', [])
     $scope.modal = modal;
   });
 
-  // Triggered in the login modal to close it
   $scope.closeLogin = function() {
     $scope.modal.hide();
     $ionicHistory.backView().go();
   };
 
-  // Open the login modal
   $scope.login = function() {
     $scope.modal.show();
   };
 
-  // Perform the login action when the user submits the login form
   $scope.doLogin = function() {
     console.log('Doing login', $scope.loginData);
 
-    // Simulate a login delay. Remove this and replace with your login
-    // code if using a login system
     $timeout(function() {
       $scope.closeLogin();
     }, 1000);
@@ -48,8 +42,71 @@ angular.module('bolo.controllers', [])
       $scope.modal.show();
 })
 
-.controller('ListingCtrl', function($scope) {
-  
+.controller('ListingCtrl', function($scope, $stateParams, $http, $ionicModal) {
+  $http.get("http://localhost:5000/api/getListing?listing_id=" + $stateParams.listingId).then(function(response){
+    $scope.listingData = response.data;
+    $scope.amenities = [];
+    for (var i in response.data.amenities) {
+      if (response.data.amenities[i]) {
+        var icon;
+        switch (i) {
+          case 'reception':
+            icon = 'ion-clipboard';
+            break;
+          case 'telephone':
+            icon = 'ion-ios-telephone';
+            break;
+          case 'white_board':
+            icon = 'ion-edit';
+            break;
+          case 'parking':
+            icon = 'ion-model-s';
+            break;
+          case 'projector':
+            icon = 'ion-ios-videocam';
+            break;
+          case 'wifi':
+            icon = 'ion-wifi';
+            break;
+          case 'refreshment':
+            icon = 'ion-coffee';
+            break;
+          case 'speaker':
+            icon = 'ion-volume-medium';
+            break;
+          case 'vending_machine':
+            icon = 'ion-pizza';
+            break;
+          case 'fax_machine':
+            icon = 'ion-printer';
+            break;
+          case 'ethernet':
+            icon = 'ion-code-working';
+            break;
+        }
+        $scope.amenities.push({
+          'name': i,
+          'icon': icon
+        })
+      }
+    }
+  });
+
+  // $ionicModal.fromTemplateUrl('templates/book.html', {
+  //   scope: $scope,
+  //   animation: 'slide-in-up'
+  // }).then(function(modal) {
+  //   $scope.modal = modal;
+  // });
+
+  // $scope.closeLogin = function() {
+  //   $scope.modal.hide();
+  //   $ionicHistory.backView().go();
+  // };
+
+  // $scope.login = function() {
+  //   $scope.modal.show();
+  // };
 })
 
 .controller('PlaylistsCtrl', function($scope) {
