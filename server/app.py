@@ -179,7 +179,6 @@ def rate():
         cursor.execute("UPDATE Room SET rating = (SELECT AVG(rating) from Room_Rating WHERE rid = " + str(rid) + ") WHERE rid = " + str(rid))
         conn.commit()
 	# Update the rating of the listing in the database
-	return "Success"
 
 @app.route('/dashboard')
 def show_profile():
