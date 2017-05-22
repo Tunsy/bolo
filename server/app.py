@@ -73,13 +73,14 @@ def show_login():
 def login():
 	email = request.form['email']
 	password = request.form['password']
+	print('test')
 	cursor = mysql.get_db().cursor()
 	cursor.execute("SELECT * FROM User where email='" + email + "' and password = '" + password + "'")
 	data = cursor.fetchone()
 	if data != None:
-		return 'Success'
+		return json.dumps({'uid':data[0], 'first_name':data[3], 'last_name':data[4]})
 	else:
-		return 'Error'
+		return ''
 
 @app.route('/post')
 def show_post():

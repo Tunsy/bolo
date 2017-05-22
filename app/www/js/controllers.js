@@ -1,6 +1,8 @@
+API_URL = 'http://localhost:5000';
+
 angular.module('bolo.controllers', [])
 
-.controller('AppCtrl', function($scope, $ionicModal, $timeout, $ionicHistory) {
+.controller('AppCtrl', function($scope, $ionicModal, $timeout, $ionicHistory, $http) {
 
   // With the new view caching in Ionic, Controllers are only called
   // when they are recreated or on app start, instead of every page change.
@@ -29,21 +31,43 @@ angular.module('bolo.controllers', [])
   };
 
   $scope.doLogin = function() {
-    console.log('Doing login', $scope.loginData);
-
-    $timeout(function() {
-      $scope.closeLogin();
-    }, 1000);
+    $http({
+      method: 'POST',
+      url: API_URL + '/api/login',
+      data: {
+        email: $scope.loginData.email,
+        password: $scope.loginData.password
+      },
+      headers: {'Content-Type': 'application/x-www-form-urlencoded'},
+      transformRequest: function(obj) {
+        var str = [];
+        for(var p in obj)
+        str.push(encodeURIComponent(p) + "=" + encodeURIComponent(obj[p]));
+        return str.join("&");
+      }
+    }).then(function successCallback(response) {
+      console.log(response)
+      if (response.data === '') {
+        // login failed
+      } else {
+        window.localStorage.setItem('uid', response.data.uid);
+        window.localStorage.setItem('first_name', response.data.first_name);
+        window.localStorage.setItem('last_name', response.data.last_name);
+        $scope.modal.hide();
+      }
+    }, function errorCallback(response) {
+      console.log(JSON.stringify(response));
+    });
   };
 })
 
 .controller('ReservationsCtrl', function($scope) {
-  if (window.localStorage.getItem('uid') === null)
+  if (window.localStorage.getItem('uid') === null || window.localStorage.getItem('uid') === '')
       $scope.modal.show();
 })
 
 .controller('ListingCtrl', function($scope, $stateParams, $http, $ionicModal) {
-  $http.get("http://localhost:5000/api/getListing?listing_id=" + $stateParams.listingId).then(function(response){
+  $http.get(API_URL + '/api/getListing?listing_id=' + $stateParams.listingId).then(function(response){
     $scope.listingData = response.data;
     $scope.amenities = [];
     for (var i in response.data.amenities) {
@@ -92,21 +116,26 @@ angular.module('bolo.controllers', [])
     }
   });
 
-  // $ionicModal.fromTemplateUrl('templates/book.html', {
-  //   scope: $scope,
-  //   animation: 'slide-in-up'
-  // }).then(function(modal) {
-  //   $scope.modal = modal;
-  // });
+  // Reserve Modal
+  $ionicModal.fromTemplateUrl('templates/reserve.html', {
+    id: '1',
+    scope: $scope,
+    animation: 'slide-in-up'
+  }).then(function(modal) {
+    $scope.reserveModal = modal;
+  });
 
-  // $scope.closeLogin = function() {
-  //   $scope.modal.hide();
-  //   $ionicHistory.backView().go();
-  // };
+  $scope.closeReserve = function() {
+    $scope.modal.hide();
+  };
 
-  // $scope.login = function() {
-  //   $scope.modal.show();
-  // };
+  $scope.showReserve = function() {
+    $scope.modal.show();
+  };
+
+  $scope.reserve = function() {
+
+  };
 })
 
 .controller('PlaylistsCtrl', function($scope) {

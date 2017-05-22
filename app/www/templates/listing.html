@@ -11,8 +11,8 @@
 			<div><i class="icon ion-ios-people"></i> 1 – {{ listingData.capacity }} people</div>
 			<div ng-repeat="x in amenities"><i class="icon {{ x.icon }}"></i> {{ x.name }}</div>
 		</div>
-		<div class="bar bar-footer bar-balanced">
-			<div class="title"><i class="icon ion-pricetag"></i> Reserve for ${{ listingData.price }}/day</div>
-		</div>
 	</ion-content>
+	<div ng-click="showReserve()" class="bar bar-footer bar-balanced">
+		<div class="title"><i class="icon ion-pricetag"></i> Reserve for ${{ listingData.price }}/day</div>
+	</div>
 </ion-view>
