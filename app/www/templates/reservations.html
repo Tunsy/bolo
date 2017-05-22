@@ -1,11 +1,11 @@
 <ion-view view-title="Reservations">
 	<ion-content>
-		<div class="list card">
+		<div ng-repeat="x in reservations" class="list card">
 
 			<div class="item item-avatar">
-				<img src="avatar.jpg">
-				<h2>Irvine Office Complex B-4-20</h2>
-				<p>April 20, 2017 4:00pm – 5:00pm</p>
+				<img src="{{ x.photo }}">
+				<h2>{{ x.name }}</h2>
+				<p>{{ x.date }}</p>
 			</div>
 
 			<a class="item item-icon-left assertive" href="#">

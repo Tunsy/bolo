@@ -11,6 +11,21 @@ angular.module('bolo.controllers', [])
   //$scope.$on('$ionicView.enter', function(e) {
   //});
 
+  var loadReservations = function() {
+    $http.get(API_URL + '/api/getReservations?uid=' + window.localStorage.getItem('uid')).then(function(response) {
+      $scope.reservations = response.data;
+      $scope.reservations.forEach(function(r) {
+        var start = new Date(r.start_datetime);
+        var end = new Date(r.end_datetime);
+        r.date = start.toDateString() + ' ' + start.toLocaleTimeString()
+      })
+    })
+  }
+
+  if (window.localStorage.getItem('uid') !== null && window.localStorage.getItem('uid') !== '') {
+    loadReservations();
+  }
+
   // Form data for the login modal
   $scope.loginData = {};
 
@@ -18,16 +33,16 @@ angular.module('bolo.controllers', [])
     scope: $scope,
     animation: 'slide-in-up'
   }).then(function(modal) {
-    $scope.modal = modal;
+    $scope.loginModal = modal;
   });
 
   $scope.closeLogin = function() {
-    $scope.modal.hide();
+    $scope.loginModal.hide();
     $ionicHistory.backView().go();
   };
 
-  $scope.login = function() {
-    $scope.modal.show();
+  $scope.showLogin = function() {
+    $scope.loginModal.show();
   };
 
   $scope.doLogin = function() {
@@ -60,7 +75,8 @@ angular.module('bolo.controllers', [])
         window.localStorage.setItem('uid', response.data.uid);
         window.localStorage.setItem('first_name', response.data.first_name);
         window.localStorage.setItem('last_name', response.data.last_name);
-        $scope.modal.hide();
+        loadReservations();
+        $scope.loginModal.hide();
       }
     }, function errorCallback(response) {
       console.log(JSON.stringify(response));
@@ -69,8 +85,9 @@ angular.module('bolo.controllers', [])
 })
 
 .controller('ReservationsCtrl', function($scope) {
-  if (window.localStorage.getItem('uid') === null || window.localStorage.getItem('uid') === '')
-      $scope.modal.show();
+  if (window.localStorage.getItem('uid') === null || window.localStorage.getItem('uid') === '') {
+    $scope.showLogin();
+  }
 })
 
 .controller('ListingCtrl', function($scope, $stateParams, $http, $ionicModal) {
@@ -125,7 +142,6 @@ angular.module('bolo.controllers', [])
 
   // Reserve Modal
   $ionicModal.fromTemplateUrl('templates/reserve.html', {
-    id: '1',
     scope: $scope,
     animation: 'slide-in-up'
   }).then(function(modal) {
@@ -133,16 +149,17 @@ angular.module('bolo.controllers', [])
   });
 
   $scope.closeReserve = function() {
-    $scope.modal.hide();
+    $scope.reserveModal.hide();
   };
 
   $scope.showReserve = function() {
-    $scope.modal.show();
+    $scope.reserveModal.show();
   };
 
   $scope.reserve = function() {
-    if (window.localStorage.getItem('uid') === null || window.localStorage.getItem('uid') === '')
+    if (window.localStorage.getItem('uid') === null || window.localStorage.getItem('uid') === '') {
       $scope.loginModal.show();
+    }
   };
 })
 

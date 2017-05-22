@@ -31,7 +31,6 @@ def get_listing():
 	cursor = mysql.get_db().cursor()
 	cursor.execute("SELECT * FROM Room R, Room_Photo P WHERE R.rid = " + listing_id + " AND R.rid = P.rid")
 	result = cursor.fetchone()
-	print result
 	return json.dumps({'rid':result[0], 'oid':result[1], 'name':result[2], 'location':result[3], 'price':result[4], 
 		'capacity':result[5], 'description':result[6], 'email':result[7], 'phone_number':result[8],
 		'amenities': {'wifi':result[9], 'white_board':result[10], 'telephone':result[11], 'reception':result[12],
@@ -73,7 +72,6 @@ def show_login():
 def login():
 	email = request.form['email']
 	password = request.form['password']
-	print('test')
 	cursor = mysql.get_db().cursor()
 	cursor.execute("SELECT * FROM User where email='" + email + "' and password = '" + password + "'")
 	data = cursor.fetchone()
@@ -223,22 +221,22 @@ def get_user():
 	return json.dumps({"email": data[2], "first_name": data[3],
                            "last_name": data[4], "rating": data[5]})
 
-@app.route('/api/getReservations', methods=['POST'])
+@app.route('/api/getReservations')
 def get_reservations():
-        conn = mysql.connect()
-        userID = request.form['userID']
-        cursor = conn.cursor()
-        
-        cursor.execute("SELECT * FROM booking WHERE cid=" + userID)
-        result = cursor.fetchall()
-        bookingList = []
-        if result:
-            for row in result:
-                bookingDict = {'bid':row[0], 'cid':row[1], 'rid':row[2], 'grand_total_price':row[3], 'subtotal_price':row[4], 'start_datetime':str(row[5]), 'end_datetime':str(row[6])}
-                bookingList.append(bookingDict)
-            return json.dumps(bookingList)
-        else:
-            return 'No Bookings Found'
+	conn = mysql.connect()
+	userID = request.args.get('uid')
+	cursor = conn.cursor()
+
+	cursor.execute("SELECT * FROM Booking B, Room R, Room_Photo P WHERE cid=" + userID + " AND R.rid = B.rid AND R.rid = P.rid")
+	result = cursor.fetchall()
+	bookingList = []
+	if result:
+		for row in result:
+			bookingDict = {'bid':row[0], 'rid':row[2], 'grand_total_price':row[3], 'subtotal_price':row[4], 'start_datetime':str(row[5]), 'end_datetime':str(row[6]), 'name':row[9], 'location':row[10], 'photo':row[28]}
+			bookingList.append(bookingDict)
+			return json.dumps(bookingList)
+	else:
+		return ''
 
 if __name__ == '__main__':
 	app.run()
