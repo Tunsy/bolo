@@ -2,7 +2,7 @@ API_URL = 'http://localhost:5000';
 
 angular.module('bolo.controllers', [])
 
-.controller('AppCtrl', function($scope, $ionicModal, $timeout, $ionicHistory, $ionicPopup, $http) {
+.controller('AppCtrl', function($scope, $ionicModal, $rootScope, $timeout, $ionicHistory, $ionicPlatform, $ionicPopup, $http, $cordovaGeolocation) {
 
   // With the new view caching in Ionic, Controllers are only called
   // when they are recreated or on app start, instead of every page change.
@@ -38,11 +38,31 @@ angular.module('bolo.controllers', [])
 
   $scope.closeLogin = function() {
     $scope.loginModal.hide();
-    $ionicHistory.backView().go();
+    if ($ionicHistory.currentView().title === 'Reservations')
+      $ionicHistory.backView().go();
   };
 
   $scope.showLogin = function() {
     $scope.loginModal.show();
+  };
+
+  // Reserve Modal
+  $ionicModal.fromTemplateUrl('templates/reserve.html', {
+    scope: $scope,
+    animation: 'slide-in-up'
+  }).then(function(modal) {
+    $scope.reserveModal = modal;
+  });
+
+  $scope.closeReserve = function() {
+    $scope.reserveModal.hide();
+  };
+
+  $scope.showReserve = function() {
+    if (window.localStorage.getItem('uid') === null || window.localStorage.getItem('uid') === '') {
+      $scope.loginModal.show();
+    } else
+    $scope.reserveModal.show();
   };
 
   $scope.doLogin = function() {
@@ -61,7 +81,6 @@ angular.module('bolo.controllers', [])
         return str.join("&");
       }
     }).then(function successCallback(response) {
-      console.log(response)
       if (response.data === '') {
         $scope.showLoginFailedAlert = function() {
           var alertPopup = $ionicPopup.alert({
@@ -77,11 +96,30 @@ angular.module('bolo.controllers', [])
         window.localStorage.setItem('last_name', response.data.last_name);
         loadReservations();
         $scope.loginModal.hide();
+        if ($ionicHistory.currentView().title === 'Listing')
+          $scope.showReserve();
       }
     }, function errorCallback(response) {
       console.log(JSON.stringify(response));
     });
   };
+
+  $scope.reserve = function() {
+    
+  };
+
+  $ionicPlatform.ready(function() {
+    $cordovaGeolocation.getCurrentPosition().then(function(position) {
+      var lat = position.coords.latitude;
+      var lng = position.coords.longitude;
+
+      $http.get('https://maps.googleapis.com/maps/api/geocode/json?latlng=' + lat + ',' + lng + '&key=AIzaSyBqvzDwbqKXjOPIztIAE7pg2U_q3sjSWGY').then(function(response) {
+        $scope.currentLocation = response.data.results[1].formatted_address;
+      })
+    }, function(err) {
+      console.err(err);
+    })
+  });
 })
 
 .controller('ReservationsCtrl', function($scope) {
@@ -90,9 +128,10 @@ angular.module('bolo.controllers', [])
   }
 })
 
-.controller('ListingCtrl', function($scope, $stateParams, $http, $ionicModal) {
+.controller('ListingCtrl', function($scope, $stateParams, $rootScope, $http, $ionicModal) {
   $http.get(API_URL + '/api/getListing?listing_id=' + $stateParams.listingId).then(function(response){
     $scope.listingData = response.data;
+    $rootScope.listingData = response.data;
     $scope.amenities = [];
     for (var i in response.data.amenities) {
       if (response.data.amenities[i]) {
@@ -139,40 +178,4 @@ angular.module('bolo.controllers', [])
       }
     }
   });
-
-  // Reserve Modal
-  $ionicModal.fromTemplateUrl('templates/reserve.html', {
-    scope: $scope,
-    animation: 'slide-in-up'
-  }).then(function(modal) {
-    $scope.reserveModal = modal;
-  });
-
-  $scope.closeReserve = function() {
-    $scope.reserveModal.hide();
-  };
-
-  $scope.showReserve = function() {
-    $scope.reserveModal.show();
-  };
-
-  $scope.reserve = function() {
-    if (window.localStorage.getItem('uid') === null || window.localStorage.getItem('uid') === '') {
-      $scope.loginModal.show();
-    }
-  };
-})
-
-.controller('PlaylistsCtrl', function($scope) {
-  $scope.playlists = [
-    { title: 'Reggae', id: 1 },
-    { title: 'Chill', id: 2 },
-    { title: 'Dubstep', id: 3 },
-    { title: 'Indie', id: 4 },
-    { title: 'Rap', id: 5 },
-    { title: 'Cowbell', id: 6 }
-  ];
-})
-
-.controller('PlaylistCtrl', function($scope, $stateParams) {
 });

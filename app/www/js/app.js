@@ -4,7 +4,7 @@
 // 'bolo' is the name of this angular module example (also set in a <body> attribute in index.html)
 // the 2nd parameter is an array of 'requires'
 // 'bolo.controllers' is found in controllers.js
-angular.module('bolo', ['ionic', 'bolo.controllers'])
+angular.module('bolo', ['ionic', 'bolo.controllers', 'ngCordova'])
 
 .run(function($ionicPlatform, $ionicHistory) {
   $ionicPlatform.ready(function() {
