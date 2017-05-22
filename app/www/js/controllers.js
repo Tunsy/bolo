@@ -2,7 +2,7 @@ API_URL = 'http://localhost:5000';
 
 angular.module('bolo.controllers', [])
 
-.controller('AppCtrl', function($scope, $ionicModal, $timeout, $ionicHistory, $http) {
+.controller('AppCtrl', function($scope, $ionicModal, $timeout, $ionicHistory, $ionicPopup, $http) {
 
   // With the new view caching in Ionic, Controllers are only called
   // when they are recreated or on app start, instead of every page change.
@@ -48,7 +48,14 @@ angular.module('bolo.controllers', [])
     }).then(function successCallback(response) {
       console.log(response)
       if (response.data === '') {
-        // login failed
+        $scope.showLoginFailedAlert = function() {
+          var alertPopup = $ionicPopup.alert({
+            title: 'Login Failed',
+            template: 'Email/password is incorrect.'
+          });
+        };
+
+        $scope.showLoginFailedAlert();
       } else {
         window.localStorage.setItem('uid', response.data.uid);
         window.localStorage.setItem('first_name', response.data.first_name);
@@ -134,7 +141,8 @@ angular.module('bolo.controllers', [])
   };
 
   $scope.reserve = function() {
-
+    if (window.localStorage.getItem('uid') === null || window.localStorage.getItem('uid') === '')
+      $scope.loginModal.show();
   };
 })
 

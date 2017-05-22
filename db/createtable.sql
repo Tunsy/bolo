@@ -5,6 +5,7 @@ USE `bolo`;
 DROP TABLE IF EXISTS CustomerRentsBooking;
 DROP TABLE IF EXISTS Booking;
 DROP TABLE IF EXISTS Availability;
+DROP TABLE IF EXISTS Room_Rating;
 DROP TABLE IF EXISTS Room_Photo;
 DROP TABLE IF EXISTS Room;
 DROP TABLE IF EXISTS Customer;
@@ -34,7 +35,7 @@ CREATE TABLE Owner (
 );
 
 CREATE TABLE Room (
-    `rid`               INT UNSIGNED AUTO_INCREMENT NOT NULL,
+	`rid`               INT UNSIGNED AUTO_INCREMENT NOT NULL,
     `oid`               INT UNSIGNED NOT NULL,
     `name`              VARCHAR (200) NOT NULL,
     `location`          VARCHAR (200) NOT NULL, -- Might use open-source thingie
@@ -54,6 +55,9 @@ CREATE TABLE Room (
     `projector`         BOOLEAN,
     `speaker`           BOOLEAN,
     `fax_machine`       BOOLEAN,
+    `rating`			DECIMAL(3,2) UNSIGNED NULL,
+    `latitude`			DECIMAL(9,7) NOT NULL,
+    `longitude`			DECIMAL(10,7) NOT NULL,
     PRIMARY KEY         (`rid`),
     FOREIGN KEY         (`oid`) REFERENCES Owner(`oid`) ON DELETE NO ACTION
 );
@@ -65,6 +69,15 @@ CREATE TABLE Room_Photo (
     FOREIGN KEY         (`rid`) REFERENCES Room(`rid`) ON DELETE NO ACTION
 );
 
+CREATE TABLE Room_Rating(
+	`rrid`				INT UNSIGNED NOT NULL AUTO_INCREMENT,
+    `rid`				INT UNSIGNED NOT NULL,
+    `rating`			INT UNSIGNED NOT NULL,
+    `comments`			VARCHAR(1500),
+    PRIMARY KEY 		(`rrid`),
+	FOREIGN KEY         (`rid`) REFERENCES Room(`rid`) ON DELETE NO ACTION
+);
+
 CREATE TABLE Availability (
     `rid`               INT UNSIGNED NOT NULL,
     `start_datetime`    DATETIME NOT NULL,
@@ -74,10 +87,10 @@ CREATE TABLE Availability (
 );
 
 CREATE TABLE Booking (
-    `bid`               INT UNSIGNED AUTO_INCREMENT NOT NULL,
-    `cid`               INT UNSIGNED NOT NULL,
-    `rid`               INT UNSIGNED NOT NULL,
-    `grand_total_price` DECIMAL(10,2) NOT NULL,
+	`bid`				INT UNSIGNED NOT NULL,
+	`cid`				INT UNSIGNED NOT NULL,
+    `rid`				INT UNSIGNED NOT NULL,
+    `grand_total_price`	DECIMAL(10,2) NOT NULL,
     `subtotal_price`    DECIMAL(10,2) NOT NULL,
     `start_datetime`    DATETIME NOT NULL,
     `end_datetime`      DATETIME NOT NULL, 
