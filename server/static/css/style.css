@@ -75,7 +75,8 @@ h3.ui.header {
 }
 
 .upcoming-reservations-table{
-    padding-top: 200px;
+    margin-top: 20px;
+    margin-bottom: 20px;
 }
 
 .ui.table{
@@ -104,4 +105,8 @@ p {
 .login-box{
     margin-top: 120px !important;
     width: 450px !important;
+}
+
+.upcoming{
+    margin-top: -200px;
 }

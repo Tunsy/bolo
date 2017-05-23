@@ -5,45 +5,204 @@
             <i class="home icon"></i>
             Home
         </a>
-        <a id="pending-button"class="item">
+        <a id="pending-button" class="item">
             <i class="browser icon"></i>
             Pending Offers
+            <div class="ui orange label">2</div>
         </a>
         <a id="past-button" class="item">
             <i class="history icon"></i>
             Past Reservations
         </a>
     </div>
-    <h2 class="pusher">BOLO</h2>
+    <h1 class="pusher">BOLO</h1>
     <div id="home" class="pusher">
-        <div class="upcoming-reservations-table">
-            <h3>Upcoming Reservations</h3>
+        <h3>Next reservation</h3>
+        <div class="ui grid">
+            <div class="three wide column">
+                <div class="ui fluid card">
+                    <div class="image">
+                        <img src="{{ url_for('static', filename='img/elyse.png') }}">
+                    </div>
+                    <div class="content">
+                        <a class="header">Daniel Louise</a>
+                        <div class='ui star rating'><i class='active icon'></i><i class='active icon'></i><i class='active icon'></i><i class='active icon'></i><i class='icon'></i></div>
+                    </div>
+                </div>
+            </div>
+            <div class="three wide column">
+                <div class="ui segment">
+                    <h4>Reservation Info</h4>
+                    <div class="ui list">
+                      <div class="item">
+                        <i class="calendar icon"></i>
+                        <div class="content">
+                          05/26/17
+                        </div>
+                      </div>
+                      <div class="item">
+                        <i class="hourglass full icon"></i>
+                        <div class="content">
+                          12:00PM - 2:00PM
+                        </div>
+                      </div>
+                      <div class="item">
+                        <i class="marker icon"></i>
+                        <div class="content">
+                            1234 Notreal Road, CA, Irvine
+                        </div>
+                      </div>
+                      <div class="item">
+                        <i class="building icon"></i>
+                        <div class="content">
+                            Room 302    
+                        </div>
+                      </div>
+                      <div class="item">
+                        <i class="dollar icon"></i>
+                        <div class="content">
+                          50
+                        </div>
+                      </div>
+                    </div>
+                    <h4>Contact Info</h4>
+                    <div class="ui list">
+                      <div class="item">
+                        <i class="phone icon"></i>
+                        <div class="content">
+                          555-555-5555
+                        </div>
+                      </div>
+                      <div class="item">
+                        <i class="mail icon"></i>
+                        <div class="content">
+                          hi@yolobolo.com
+                        </div>
+                      </div>
+                      <div class="item">
+                        <i class="users icon"></i>
+                        <div class="content">
+                          YOLOBOLO
+                        </div>
+                      </div>
+                    </div> 
+                </div>
+                <button class="negative ui button fluid">Cancel Reservation</button>    
+            </div>
+            <div class="ten wide column">
+                <h3>Upcoming Reservations</h3>
                  <table class="ui teal table">
+                      <thead>
+                        <tr>
+                            <th>User</th>
+                            <th>Date</th>
+                            <th>Time</th>
+                            <th>Room #</th>
+                            <th>Cost</th>
+                        </tr>
+                      </thead><tbody>
+                        <tr>
+                            <td><img src="{{ url_for('static', filename='img/elliot.jpg') }}" data-html="<div class='header'>Elliot Fu <div class='ui star rating'><i class='active icon'></i><i class='active icon'></i><i class='active icon'></i><i class='icon'></i><i class='icon'></i></div></div><div class='content'>Phone: 555-555-5555<br>Email: hi@YoloBolo.com</div>" class="ui avatar image"></td>
+                            <td>05/26/17</td>
+                            <td>12:00PM - 2:00PM</td>
+                            <td>1234 Notreal Road, Room 302, CA, Irvine</td>
+                            <td>$50</td>
+                        </tr>
+                        <tr>
+                            <td><img src="{{ url_for('static', filename='img/elliot.jpg') }}" data-html="<div class='header'>Chris Wong<div class='ui star rating'><i class='active icon'></i><i class='active icon'></i><i class='active icon'></i><i class='active icon'></i><i class='active icon'></i></div></div><div class='content'>Phone: 555-555-5555<br>Email: hi@YoloBolo.com<br> Company:YOLOBOLO</div> " class="ui avatar image"></td>                       
+                            <td>05/27/17</td>
+                            <td>3:00PM - 5:00PM</td>
+                            <td>1234 Notreal Road, Room 302, CA, Irvine</td>
+                            <td>$50</td>
+                        </tr>
+                      </tbody>
+                </table>
+            </div>      
+        </div>
+        <div class="upcoming-reservations-table">
+            <h3>Rooms listed</h3>
+             <table class="ui orange celled table">
                   <thead>
                     <tr>
-                        <th>User</th>
-                        <th>Date</th>
-                        <th>Time</th>
-                        <th>Room #</th>
-                        <th>Cost</th>
+                        <th>Address</th>
+                        <th>Room</th>
+                        <th>Wi-fi</th>
+                        <th>Ethernet</th>
+                        <th>Parking</th>
+                        <th>Phone</th>
+                        <th>Fax</th>
+                        <th>Refreshments</th>
+                        <th>Speakers</th>
+                        <th>Projector</th>
+                        <th>Whiteboard</th>
                     </tr>
-                  </thead><tbody>
+                  </thead>
+                  <tbody>
                     <tr>
-                        <td><img src="{{ url_for('static', filename='img/elliot.jpg') }}" data-html="<div class='header'>Elliot Fu <div class='ui star rating'><i class='active icon'></i><i class='active icon'></i><i class='active icon'></i><i class='icon'></i><i class='icon'></i></div></div><div class='content'>Phone: 555-555-5555<br>Email: hi@YoloBolo.com</div>" class="ui avatar image"></td>
-                        <td>05/26/17</td>
-                        <td>12:00PM - 2:00PM</td>
-                        <td>1234 Notreal Road, Room 302, CA, Irvine</td>
-                        <td>$50</td>
-                    </tr>
+                        <td>1234 Notreal Road, CA, Irvine</td>
+                        <td>Room 302</td>
+                        <td class="center aligned">
+                            <i class="large green checkmark icon"></i>
+                        </td>
+                        <td class="center aligned">
+                            <i class="large red x icon"></i>
+                        </td>
+                        <td class="center aligned">
+                            <i class="large green checkmark icon"></i>
+                        </td>     
+                        <td class="center aligned">
+                            <i class="large green checkmark icon"></i>
+                        </td>  
+                        <td class="center aligned">
+                            <i class="large red x icon"></i>
+                        </td>
+                        <td class="center aligned">
+                            <i class="large green checkmark icon"></i>
+                        </td>
+                        <td class="center aligned">
+                            <i class="large green checkmark icon"></i>
+                        </td>     
+                        <td class="center aligned">
+                            <i class="large green checkmark icon"></i>
+                        </td> 
+                        <td class="center aligned">
+                            <i class="large green checkmark icon"></i>
+                        </td>    
+                    </tr> 
                     <tr>
-                        <td><img src="{{ url_for('static', filename='img/elliot.jpg') }}" data-html="<div class='header'>Chris Wong<div class='ui star rating'><i class='active icon'></i><i class='active icon'></i><i class='active icon'></i><i class='active icon'></i><i class='active icon'></i></div></div><div class='content'>Phone: 555-555-5555<br>Email: hi@YoloBolo.com<br> Company:YOLOBOLO</div> " class="ui avatar image"></td>                       
-                        <td>05/26/17</td>
-                        <td>3:00PM - 5:00PM</td>
-                        <td>1234 Notreal Road, Room 302, CA, Irvine</td>
-                        <td>$50</td>
-                    </tr>
+                        <td>1234 Notreal Road, CA, Irvine</td>
+                        <td>Room 420</td>
+                        <td class="center aligned">
+                            <i class="large green checkmark icon"></i>
+                        </td>
+                        <td class="center aligned">
+                            <i class="large green checkmark icon"></i>
+                        </td>
+                        <td class="center aligned">
+                            <i class="large green checkmark icon"></i>
+                        </td>     
+                        <td class="center aligned">
+                            <i class="large green checkmark icon"></i>
+                        </td>  
+                        <td class="center aligned">
+                            <i class="large green checkmark icon"></i>
+                        </td>
+                        <td class="center aligned">
+                            <i class="large green checkmark icon"></i>
+                        </td>
+                        <td class="center aligned">
+                            <i class="large green checkmark icon"></i>
+                        </td>     
+                        <td class="center aligned">
+                            <i class="large green checkmark icon"></i>
+                        </td> 
+                        <td class="center aligned">
+                            <i class="large green checkmark icon"></i>
+                        </td>    
+                    </tr>         
                   </tbody>
-                </table>
+            </table>
+            <button class="circular ui orange button icon"><i class="plus icon"></i> &nbsp;Post new room</button> 
         </div>
     </div>
     <div id="pending" class="pusher">
