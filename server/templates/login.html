@@ -1,0 +1,40 @@
+{% extends "layout.html" %}
+{% block body %}
+  <script>
+      $('body').css("background-image", "../img/cool-pineapple.jpg")
+  </script>
+<div class="ui middle aligned center aligned grid">
+  <div class="column">
+    <div class="login-box">
+      <h2 class="ui orange header login-image">
+        <img src="../static/img/bolo_icon.png" height="70px">
+        <div class="content">
+          BOLO
+        </div>
+      </h2>
+
+      <form class="ui large form">
+        <div class="ui stacked segment">
+          <div class="field">
+            <div class="ui left icon input">
+              <i class="user icon"></i>
+              <input type="text" name="email" placeholder="E-mail address">
+            </div>
+          </div>
+          <div class="field">
+            <div class="ui left icon input">
+              <i class="lock icon"></i>
+              <input type="password" name="password" placeholder="Password">
+            </div>
+          </div>
+          <div class="ui fluid orange submit button">Login</div>
+        </div>
+      </form>
+
+      <div class="ui message">
+       New here?<a href="#"> Create an account</a>
+      </div>
+    </div>  
+  </div>
+</div>
+{% endblock %}

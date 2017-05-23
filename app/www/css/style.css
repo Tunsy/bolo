@@ -1,1 +1,7 @@
-/* Empty. Add your own CSS if you like */
+.scroll {
+	min-height: 100%;
+}
+
+.listing-details {
+	padding: 3.5% 5% 50px 5%;
+}

@@ -1,0 +1,18 @@
+<ion-view view-title="Reservations">
+	<ion-content>
+		<div ng-repeat="x in reservations" class="list card">
+
+			<div class="item item-avatar">
+				<img src="{{ x.photo }}">
+				<h2>{{ x.name }}</h2>
+				<p>{{ x.date }}</p>
+			</div>
+
+			<a class="item item-icon-left assertive" href="#">
+				<i class="icon ion-checkmark"></i>
+				Reservation Confirmed
+			</a>
+
+		</div>
+	</ion-content>
+</ion-view>

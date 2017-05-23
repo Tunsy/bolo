@@ -23,19 +23,29 @@ body {
     background-repeat: no-repeat;
     background-attachment: fixed;
 }
+
+.center-align {
+    display:flex;
+    justify-content:center;
+    align-items:center;
+}
+
 .landpage-image{
     background-image: url('../img/meeting-room.jpeg') !important;
     background-repeat: no-repeat !important;
-    background-size: 100% 100% !important;
+    background-size: cover !important;
+    background-position: center center !important;
     background-attachment: local !important;
+    height: 100%;
 }
 
 .landpage-block{
-    padding: 20% 0;
+    height: calc(100% - 2.85714286em);
 }
 
 h1.ui.header {
     font-size: 7rem;
+    display: inline;
 }
 
 .header-button-left {
@@ -43,8 +53,22 @@ h1.ui.header {
 }
 
 .black-text {
-    color: black !important;
+    color: white !important;
+    text-shadow: black 0px 0px 10px;
 }
+
+.ui.vertical.stripe {
+    padding: 8em 0em;
+}
+
+.ui.segments .segment, .ui.segment {
+    font-size: 1rem;
+}
+
+h3.ui.header {
+    font-size: 2em;
+}
+
 
 .accordion-dropdown{
     padding-left: 6em;
@@ -56,4 +80,28 @@ h1.ui.header {
 
 .ui.table{
     width: auto;
+
+h4 {
+    font-size: 1.5em;
+}
+
+p {
+    font-size: 1em;
+}
+
+.gray {
+    background-color: #f2f1ef !important;
+}
+
+.bullet-point {
+    font-size: 1.5em;
+}
+
+.ui.inverted.vertical.footer {
+    padding: 3em 0;
+}
+
+.login-box{
+    margin-top: 120px !important;
+    width: 450px !important;
 }

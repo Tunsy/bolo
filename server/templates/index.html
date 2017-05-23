@@ -1,34 +1,107 @@
 {% extends "layout.html" %}
 {% block body %}
-<div class="pusher">
-  <div class="ui inverted vertical masthead center aligned segment landpage-image">
+<div class="ui inverted vertical masthead center aligned segment landpage-image">
 
-    <div class="ui container">
-      <div class="ui large menu">
-        <a class="toc item">
-          <i class="sidebar icon"></i>
-        </a>
-        <a class="active item">Home</a>
-        <a class="item">Browse Room</a>
-        <a class="item">Post Room</a>
-        <a class="item">Contact Us</a>
-        <div class="right item">
-          <a class="ui primary basic button header-button-left">Log in</a>
-          <a class="ui primary basic button">Sign Up</a>
+  <div class="ui container">
+    <div class="ui large menu">
+      <a class="toc item">
+        <i class="sidebar icon"></i>
+      </a>
+      <a class="active item">Home</a>
+      <a class="item">Post Room</a>
+      <a class="item">FAQ</a>
+      <a class="item">Contact Us</a>
+      <div class="right item">
+        <a class="ui orange basic button header-button-left">Log in</a>
+        <a class="ui orange basic button">Sign Up</a>
+      </div>
+    </div>
+  </div>
+
+  <div class="landpage-block center-align">
+  <div>
+    <img src="../static/img/bolo_icon.png" height="70px"><h1 class="ui header">BOLO</h1>
+      <h2 class="black-text">Earn money by renting out your unused meeting rooms</h2><br>
+      <div class="orange ui huge button">List your space<i class="right arrow icon"></i>
+    </div>
+  </div>
+</div>
+
+<div class="ui vertical stripe segment">
+  <div class="ui middle aligned stackable grid container">
+    <div class="row">
+      <div class="eight wide floated column">
+        <img src="../static/img/business-work.jpg" class="ui large bordered rounded image">
+      </div>
+      <div class="eight wide column">
+        <h3 class="ui header">What is BOLO?</h3>
+        <h4>We are an online service that allows businesses to rent out unused conference rooms to others.</h4>
+        <h3 class="ui header">Why use BOLO?</h3>
+        <h4>Flexible, safe, and easy to use - post a listing in minutes on our website</h4>
+      </div>
+      
+    </div>
+  </div>
+</div>
+
+
+<div class="ui vertical stripe segment gray">
+  <div class="ui middle aligned stackable grid container">
+    <div class="ui four column grid">
+      <h3 class="ui header">HOW IT WORKS</h3>
+      <div class="row">
+        <div class="four wide column">
+          <h2 class="ui orange header">
+            <i class="calendar outline icon"></i>
+            Choose your room availability
+          </h2>
+          <p>Rent out rooms only when you're not using them</p>
+        </div>
+        <div class="four wide column">
+          <h2 class="ui orange header">
+            <i class="calculator icon"></i>
+            Set your own price
+          </h2>
+          <p>You decide what you want to charge</p>
+        </div>
+        <div class="four wide column">
+          <h2 class="ui orange header">
+            <i class="book icon"></i>
+            Approve rental requests
+          </h2>
+          <p>Or use the instant booking mode for a hassle-free rental</p>
+        </div>
+        <div class="four wide column">
+          <h2 class="ui orange header">
+            <i class="money icon"></i>
+            Earn hundreds of dollars
+          </h2>
+          <p>Use the additional revenue to help your business grow</p>
         </div>
       </div>
     </div>
-
-    <div class="ui text container landpage-block">
-      <h1 class="ui header">
-        BOLO
-      </h1>
-      <h2 class="black-text">Local conference room rentals</h2><br>
-      <div class="ui huge primary button">Get Started <i class="right arrow icon"></i></div>
-    </div>
-
   </div>
 </div>
+
+
+<div class="ui inverted vertical footer segment">
+  <div class="ui container">
+    <div class="ui stackable inverted divided equal height stackable grid">
+      <div class="four wide column">
+        <h4 class="ui inverted header">About</h4>
+        <div class="ui inverted link list">
+          <a href="#" class="item">Contact Us</a>
+        </div>
+      </div>
+      <div class="twelve wide column">
+        <h4 class="ui inverted header">Looking for meeting rooms?</h4>
+        <p>Visit our mobile app for available office spaces near you.</p>
+      </div>
+    </div>
+  </div>
+</div>
+
+
 {% endblock %}
 
 
