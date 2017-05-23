@@ -2,7 +2,7 @@ API_URL = 'http://localhost:5000';
 
 angular.module('bolo.controllers', [])
 
-.controller('AppCtrl', function($scope, $ionicModal, $rootScope, $timeout, $ionicHistory, $ionicPlatform, $ionicPopup, $http, $cordovaGeolocation) {
+.controller('AppCtrl', function($scope, $ionicModal, $rootScope, $timeout, $ionicHistory, $ionicPlatform, $ionicPopup, $http, $cordovaGeolocation, $cordovaDatePicker) {
 
   // With the new view caching in Ionic, Controllers are only called
   // when they are recreated or on app start, instead of every page change.
@@ -65,6 +65,7 @@ angular.module('bolo.controllers', [])
     $scope.reserveModal.show();
   };
 
+  // Perform login
   $scope.doLogin = function() {
     $http({
       method: 'POST',
@@ -109,16 +110,23 @@ angular.module('bolo.controllers', [])
   };
 
   $ionicPlatform.ready(function() {
-    $cordovaGeolocation.getCurrentPosition().then(function(position) {
+    // Get device location
+    $cordovaGeolocation.getCurrentPosition({
+      enableHighAccuracy: false
+    }).then(function(position) {
       var lat = position.coords.latitude;
       var lng = position.coords.longitude;
 
+      // Convert coordinates into city
       $http.get('https://maps.googleapis.com/maps/api/geocode/json?latlng=' + lat + ',' + lng + '&key=AIzaSyBqvzDwbqKXjOPIztIAE7pg2U_q3sjSWGY').then(function(response) {
         $scope.currentLocation = response.data.results[1].formatted_address;
       })
     }, function(err) {
       console.err(err);
     })
+
+    // Datepicker
+    
   });
 })
 
