@@ -1,15 +1,21 @@
 <ion-view view-title="BOLO">
 	<ion-content>
-		<div class="list list-inset">
+		<div class="list list-inset main-list">
 			<label class="item item-input">
 				<i class="icon ion-search placeholder-icon"></i>
 				<input type="text" placeholder="Search for Locations" value="{{ currentLocation }}">
 			</label>
 		</div>
-		<div class="list list-inset">
+		<div class="list list-inset main-list">
 			<label class="item item-input">
-				<i class="icon ion-search placeholder-icon"></i>
-				<input type="text" placeholder="Start Date">
+				<i class="icon ion-calendar placeholder-icon"></i>
+				<input type="text" ng-click="setStartDate()" readonly placeholder="Start Date" ng-model="getStartDateTime">
+			</label>
+		</div>
+		<div class="list list-inset main-list">
+			<label class="item item-input">
+				<i class="icon ion-calendar placeholder-icon"></i>
+				<input type="text" ng-click="setEndDate()" readonly placeholder="End Date" ng-model="getEndDateTime">
 			</label>
 		</div>
 		<div class="list card">

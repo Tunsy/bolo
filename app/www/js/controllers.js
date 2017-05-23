@@ -26,6 +26,13 @@ angular.module('bolo.controllers', [])
     loadReservations();
   }
 
+  var startDateTime = new Date(new Date(new Date(new Date().setHours(new Date().getHours() + 1)).setMinutes(0)).setSeconds(0));
+  $scope.startDateTime = startDateTime.toDateString() + ' ' + startDateTime.toLocaleTimeString();
+  var endDateTime = new Date(new Date(new Date(new Date().setHours(new Date().getHours() + 2)).setMinutes(0)).setSeconds(0));
+  $scope.endDateTime = endDateTime.toDateString() + ' ' + endDateTime.toLocaleTimeString();
+  $scope.getStartDateTime = 'From: ' + $scope.startDateTime;
+  $scope.getEndDateTime = 'To: ' + $scope.endDateTime;
+
   // Form data for the login modal
   $scope.loginData = {};
 
@@ -122,11 +129,38 @@ angular.module('bolo.controllers', [])
         $scope.currentLocation = response.data.results[1].formatted_address;
       })
     }, function(err) {
-      console.err(err);
+      console.log(err);
     })
 
     // Datepicker
-    
+    $scope.setStartDate = function() {
+      $cordovaDatePicker.show({
+        date: $scope.startDateTime,
+        mode: 'datetime',
+        minDate: $scope.startDateTime,
+        allowOldDates: false,
+        minuteInterval: 30
+      }).then(function(datetime) {
+        $scope.startDateTime = datetime.toDateString() + ' ' + datetime.toLocaleTimeString();
+        $scope.getStartDateTime = 'From: ' + $scope.startDateTime;
+        endDateTime = new Date(new Date(new Date(new Date($scope.startDateTime).setHours(new Date($scope.startDateTime).getHours() + 1)).setMinutes(0)).setSeconds(0));
+        $scope.endDateTime = endDateTime.toDateString() + ' ' + endDateTime.toLocaleTimeString();
+        $scope.getEndDateTime = 'To: ' + $scope.endDateTime;
+      });
+    }
+
+    $scope.setEndDate = function() {
+      $cordovaDatePicker.show({
+        date: $scope.endDateTime,
+        mode: 'datetime',
+        minDate: $scope.startDateTime,
+        allowOldDates: false,
+        minuteInterval: 30
+      }).then(function(datetime) {
+        $scope.endDateTime = datetime.toDateString() + ' ' + datetime.toLocaleTimeString();
+        $scope.getEndDateTime = 'To: ' + $scope.endDateTime;
+      });
+    }
   });
 })
 
