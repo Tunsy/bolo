@@ -1,3 +1,7 @@
+DROP DATABASE IF EXISTS `bolo`;
+CREATE SCHEMA IF NOT EXISTS `bolo` DEFAULT CHARACTER SET latin1;
+USE `bolo`;
+
 DROP TABLE IF EXISTS CustomerRentsBooking;
 DROP TABLE IF EXISTS Booking;
 DROP TABLE IF EXISTS Availability;
@@ -9,25 +13,25 @@ DROP TABLE IF EXISTS Owner;
 DROP TABLE IF EXISTS User;
 
 CREATE TABLE User (
-	`uid`				INT UNSIGNED NOT NULL AUTO_INCREMENT,
-    `password` 			VARCHAR(100) NOT NULL,
-    `email` 			VARCHAR(100) NOT NULL,
-    `first_name` 		VARCHAR(100) NOT NULL,
-    `last_name`			VARCHAR(100) NOT NULL,
-    `rating` 			INT NULL,
-	PRIMARY KEY(`uid`)
+    `uid`               INT UNSIGNED AUTO_INCREMENT NOT NULL,
+    `password`          VARCHAR(100) NOT NULL,
+    `email`             VARCHAR(100) NOT NULL,
+    `first_name`        VARCHAR(100) NOT NULL,
+    `last_name`         VARCHAR(100) NOT NULL,
+    `rating`            INT NULL,
+    PRIMARY KEY(`uid`)
 );
 
 CREATE TABLE Customer (
-	`cid` 				INT UNSIGNED NOT NULL,
-    PRIMARY KEY			(`cid`),
-	FOREIGN KEY 		(`cid`) REFERENCES User(`uid`) ON DELETE CASCADE
+    `cid`               INT UNSIGNED NOT NULL,
+    PRIMARY KEY         (`cid`),
+    FOREIGN KEY         (`cid`) REFERENCES User(`uid`) ON DELETE CASCADE
 );
 
 CREATE TABLE Owner (
-	`oid` 				INT UNSIGNED NOT NULL,
-    PRIMARY KEY			(`oid`),
-    FOREIGN KEY 		(`oid`) REFERENCES User(`uid`) ON DELETE CASCADE
+    `oid`               INT UNSIGNED NOT NULL,
+    PRIMARY KEY         (`oid`),
+    FOREIGN KEY         (`oid`) REFERENCES User(`uid`) ON DELETE CASCADE
 );
 
 CREATE TABLE Room (
@@ -90,14 +94,14 @@ CREATE TABLE Booking (
     `subtotal_price`    DECIMAL(10,2) NOT NULL,
     `start_datetime`    DATETIME NOT NULL,
     `end_datetime`      DATETIME NOT NULL, 
-    PRIMARY KEY			(`bid`),
-    FOREIGN KEY			(`cid`) REFERENCES Customer(`cid`) ON DELETE CASCADE,
-    FOREIGN KEY			(`rid`) REFERENCES Room(`rid`) ON DELETE NO ACTION
+    PRIMARY KEY         (`bid`),
+    FOREIGN KEY         (`cid`) REFERENCES Customer(`cid`) ON DELETE CASCADE,
+    FOREIGN KEY         (`rid`) REFERENCES Room(`rid`) ON DELETE NO ACTION
 );
 
 CREATE TABLE CustomerRentsBooking (
+    `cid`               INT UNSIGNED NOT NULL,
     `bid`               INT UNSIGNED NOT NULL,
-	`cid`               INT UNSIGNED NOT NULL,
     PRIMARY KEY         (`bid`, `cid`),
     FOREIGN KEY         (`bid`) REFERENCES Booking(`bid`),
     FOREIGN KEY         (`cid`) REFERENCES Customer(`cid`)

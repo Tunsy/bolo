@@ -1,3 +1,5 @@
+USE bolo;
+
 -- User
 INSERT INTO User VALUES(1, 'mypassword1', 'myemail1@email.com', 'Niles', 'Boriboon',  5);
 INSERT INTO User VALUES(2, 'mypassword2', 'myemail2@email.com', 'Jon', 'Desiderio', 1);
@@ -60,5 +62,5 @@ INSERT INTO Booking VALUES(5, 1, 1, 96.00, 86.00, '2016-8-11 13:00:00', '2016-10
 -- CustomerRentsBooking
 INSERT INTO CustomerRentsBooking VALUES(1,1);
 INSERT INTO CustomerRentsBooking VALUES(2,2);
-INSERT INTO CustomerRentsBooking VALUES(3,5);
-INSERT INTO CustomerRentsBooking VALUES(4,6);
+INSERT INTO CustomerRentsBooking VALUES(1,5);
+INSERT INTO CustomerRentsBooking VALUES(6,4);
