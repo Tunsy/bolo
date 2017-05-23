@@ -1,18 +1,124 @@
 {% extends "layout.html" %}
 {% block body %}
     <div class="ui vertical inverted left visible sidebar labeled icon menu"> 
-        <a class="item">
+        <a id="home-button" class="item">
             <i class="home icon"></i>
             Home
         </a>
-        <a class="item">
+        <a id="pending-button"class="item">
             <i class="browser icon"></i>
             Pending Offers
         </a>
-        <a class="item">
+        <a id="past-button" class="item">
             <i class="history icon"></i>
             Past Reservations
         </a>
     </div>
-<div class="pusher">This is some content.</div>
+    <h2 class="pusher">BOLO</h2>
+    <div id="home" class="pusher">
+        <div class="upcoming-reservations-table">
+            <h3>Upcoming Reservations</h3>
+                 <table class="ui teal table">
+                  <thead>
+                    <tr>
+                        <th>User</th>
+                        <th>Date</th>
+                        <th>Time</th>
+                        <th>Room #</th>
+                        <th>Cost</th>
+                    </tr>
+                  </thead><tbody>
+                    <tr>
+                        <td><img src="{{ url_for('static', filename='img/elliot.jpg') }}" data-html="<div class='header'>Elliot Fu <div class='ui star rating'><i class='active icon'></i><i class='active icon'></i><i class='active icon'></i><i class='icon'></i><i class='icon'></i></div></div><div class='content'>Phone: 555-555-5555<br>Email: hi@YoloBolo.com</div>" class="ui avatar image"></td>
+                        <td>05/26/17</td>
+                        <td>12:00PM - 2:00PM</td>
+                        <td>1234 Notreal Road, Room 302, CA, Irvine</td>
+                        <td>$50</td>
+                    </tr>
+                    <tr>
+                        <td><img src="{{ url_for('static', filename='img/elliot.jpg') }}" data-html="<div class='header'>Chris Wong<div class='ui star rating'><i class='active icon'></i><i class='active icon'></i><i class='active icon'></i><i class='active icon'></i><i class='active icon'></i></div></div><div class='content'>Phone: 555-555-5555<br>Email: hi@YoloBolo.com<br> Company:YOLOBOLO</div> " class="ui avatar image"></td>                       
+                        <td>05/26/17</td>
+                        <td>3:00PM - 5:00PM</td>
+                        <td>1234 Notreal Road, Room 302, CA, Irvine</td>
+                        <td>$50</td>
+                    </tr>
+                  </tbody>
+                </table>
+        </div>
+    </div>
+    <div id="pending" class="pusher">
+            <div class="upcoming-reservations-table">
+                <h3>Pending Reservations</h3>
+                <table class="ui yellow table">
+                  <thead>
+                    <tr>
+                        <th>User</th>
+                        <th>Date</th>
+                        <th>Time</th>
+                        <th>Room #</th>
+                        <th>Cost</th>
+                        <th>Approval</th>
+                    </tr>
+                  </thead><tbody>
+                    <tr>
+                        <td><img src="{{ url_for('static', filename='img/elliot.jpg') }}" data-html="<div class='header'>Elliot Fu <div class='ui star rating'><i class='active icon'></i><i class='active icon'></i><i class='active icon'></i><i class='icon'></i><i class='icon'></i></div></div><div class='content'>Phone: 555-555-5555<br>Email: hi@YoloBolo.com</div>" class="ui avatar image"></td>
+                        <td>05/26/17</td>
+                        <td>12:00PM - 2:00PM</td>
+                        <td>1234 Notreal Road, Room 302, CA, Irvine</td>
+                        <td>$50</td>
+                        <td>
+                            <div class="ui icon buttons">
+                                <button class="positive ui basic button approve-reservation"><i class="checkmark icon"></i></button>
+                                <button class="negative ui basic button deny-reservation"><i class="remove icon"></i></button>
+                            </div>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td><img src="{{ url_for('static', filename='img/elliot.jpg') }}" data-html="<div class='header'>Chris Wong<div class='ui star rating'><i class='active icon'></i><i class='active icon'></i><i class='active icon'></i><i class='active icon'></i><i class='active icon'></i></div></div><div class='content'>Phone: 555-555-5555<br>Email: hi@YoloBolo.com</div>" class="ui avatar image"></td>                       
+                        <td>05/26/17</td>
+                        <td>3:00PM - 5:00PM</td>
+                        <td>1234 Notreal Road, Room 302, CA, Irvine</td>
+                        <td>$50</td>
+                        <td>
+                            <div class="ui icon buttons">
+                                <button class="positive ui basic button approve-reservation"><i class="checkmark icon"></i></button>
+                                <button class="negative ui basic button deny-reservation"><i class="remove icon"></i></button>
+                            </div>
+                        </td>
+                    </tr>
+                  </tbody>
+                </table>
+            </div>
+        </div>
+    <div id="past" class="pusher">
+            <div class="upcoming-reservations-table">
+                <h3>Past Reservations</h3>
+                 <table class="ui grey table">
+                  <thead>
+                    <tr>
+                        <th>User</th>
+                        <th>Date</th>
+                        <th>Time</th>
+                        <th>Room #</th>
+                        <th>Cost</th>
+                    </tr>
+                  </thead><tbody>
+                    <tr class="disabled">
+                        <td><img src="{{ url_for('static', filename='img/elliot.jpg') }}" data-html="<div class='header'>Elliot Fu <div class='ui star rating'><i class='active icon'></i><i class='active icon'></i><i class='active icon'></i><i class='icon'></i><i class='icon'></i></div></div><div class='content'>Phone: 555-555-5555<br>Email: hi@YoloBolo.com</div>" class="ui avatar image"></td>
+                        <td>05/26/17</td>
+                        <td>12:00PM - 2:00PM</td>
+                        <td>1234 Notreal Road, Room 302, CA, Irvine</td>
+                        <td>$50</td>
+                    </tr>
+                    <tr class="disabled">
+                        <td><img src="{{ url_for('static', filename='img/elliot.jpg') }}" data-html="<div class='header'>Chris Wong<div class='ui star rating'><i class='active icon'></i><i class='active icon'></i><i class='active icon'></i><i class='active icon'></i><i class='active icon'></i></div></div><div class='content'>Phone: 555-555-5555<br>Email: hi@YoloBolo.com</div>" class="ui avatar image"></td>                       
+                        <td>05/26/17</td>
+                        <td>3:00PM - 5:00PM</td>
+                        <td>1234 Notreal Road, Room 302, CA, Irvine</td>
+                        <td>$50</td>
+                    </tr>
+                  </tbody>
+                </table>
+            </div>
+        </div>
 {% endblock %}

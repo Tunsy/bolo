@@ -48,7 +48,7 @@ def signup():
 	firstName = fullName[0]
 	lastName = fullName[1]
 	# TODO: Create account and return UID and access token
-        conn = mysql.connect()
+	conn = mysql.connect()
 	cursor = conn.cursor()
 	executeStatement = ("INSERT INTO User(password, email, first_name," +
                            "last_name) VALUES('" + password + "', '" + email +

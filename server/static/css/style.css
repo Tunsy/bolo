@@ -45,3 +45,15 @@ h1.ui.header {
 .black-text {
     color: black !important;
 }
+
+.accordion-dropdown{
+    padding-left: 6em;
+}
+
+.upcoming-reservations-table{
+    padding-top: 200px;
+}
+
+.ui.table{
+    width: auto;
+}
