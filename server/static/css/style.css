@@ -110,3 +110,7 @@ p {
 .upcoming{
     margin-top: -200px;
 }
+
+a:link {
+    text-decoration: none !important;
+}
