@@ -28,7 +28,7 @@ def search():
 	# TODO: Perform MySQL query and return the results
 	cursor = mysql.get_db().cursor()
 	query = "SELECT *, 69.0* DEGREES(ACOS(COS(RADIANS(latpoint))* COS(RADIANS(latitude))* COS(RADIANS(longpoint) - RADIANS(longitude))+ SIN(RADIANS(latpoint))* SIN(RADIANS(latitude)))) AS distance_in_miles "
-	query += "FROM room R, Room_Photo RP, availability A "
+	query += "FROM Room R, Room_Photo RP, Availability A "
 	query += "JOIN (SELECT " + str(latitude) + " AS latpoint, " + str(longitude) + " AS longpoint) as p "
 	query += "WHERE R.rid = RP.rid AND A.rid = R.rid"
 
