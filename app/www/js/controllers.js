@@ -12,7 +12,7 @@ angular.module('bolo.controllers', [])
   //$scope.$on('$ionicView.enter', function(e) {
   //});
 
-  var loadReservations = function() {
+  $scope.loadReservations = function() {
     $http.get(API_URL + '/api/getReservations?uid=' + window.localStorage.getItem('uid')).then(function(response) {
       $scope.reservations = response.data;
       console.log(response.data)
@@ -21,11 +21,13 @@ angular.module('bolo.controllers', [])
         var end = new Date(r.end_datetime);
         r.date = new Date(r.start_datetime).toDateString() + ' ' + new Date(r.start_datetime).toLocaleTimeString()
       })
+
+      console.log($scope.reservations);
     })
   }
 
   if (window.localStorage.getItem('uid') !== null && window.localStorage.getItem('uid') !== '') {
-    loadReservations();
+    $scope.loadReservations();
   }
 
   var startDateTime = new Date(new Date(new Date(new Date().setHours(new Date().getHours() + 1)).setMinutes(0)).setSeconds(0));
@@ -131,7 +133,7 @@ angular.module('bolo.controllers', [])
         window.localStorage.setItem('uid', response.data.uid);
         window.localStorage.setItem('first_name', response.data.first_name);
         window.localStorage.setItem('last_name', response.data.last_name);
-        loadReservations();
+        $scope.loadReservations();
         $scope.loginModal.hide();
         if ($ionicHistory.currentView().title === 'Listing')
           $scope.showReserve();
@@ -174,7 +176,7 @@ angular.module('bolo.controllers', [])
           buttons:[]
         });
         successPopup.then(function(res) {
-          loadReservations();
+          $scope.loadReservations();
         });
 
         $timeout(function() {
@@ -259,6 +261,8 @@ angular.module('bolo.controllers', [])
   }
   if (window.localStorage.getItem('uid') === null || window.localStorage.getItem('uid') === '') {
     $scope.showLogin();
+  } else {
+    $scope.loadReservations();
   }
 })
 
