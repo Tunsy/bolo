@@ -238,9 +238,9 @@ def book():
 	        conn.commit()
 	        return 'Success'
 	except Exception as inst:
-		print type(inst)
-		print inst.args
-		print inst
+		print (type(inst))
+		print (inst.args)
+		print (inst)
 		return 'Failure'
 	
 
