@@ -2,10 +2,11 @@ from flask import Flask, render_template, request, make_response
 from flaskext.mysql import MySQL
 from flask_cors import CORS, cross_origin
 import simplejson as json
+import requests
 
 mysql = MySQL()
 app = Flask(__name__)
-app.config['MYSQL_DATABASE_USER'] = 'bolo'
+app.config['MYSQL_DATABASE_USER'] = 'root'
 app.config['MYSQL_DATABASE_PASSWORD'] = ''
 app.config['MYSQL_DATABASE_DB'] = 'bolo'
 app.config['MYSQL_DATABASE_HOST'] = 'localhost' #'54.153.65.246'
@@ -165,7 +166,8 @@ def show_post():
 @app.route('/api/post', methods=['POST'])
 def post():
 	# TODO: Insert listing into database
-	uid = request.form['uid']       #must be in owner
+	# uid = request.form['uid']       #must be in owner
+	uid = 3
 	name = request.form['name']
 	location = request.form['location']
 	price = request.form['price']
@@ -173,17 +175,17 @@ def post():
 	description = request.form['description']
 	email = request.form['email']
 	phone_number = request.form['phone_number']
-	wifi = request.form['wifi']
-	white_board = request.form['white_board']
-	telephone = request.form['telephone']
-	reception = request.form['reception']
-	ethernet = request.form['ethernet']
-	parking = request.form['parking']
-	refreshment = request.form['refreshment']
-	vending_machine = request.form['vending_machine']
-	projector = request.form['projector']
-	speaker = request.form['speaker']
-	fax_machine = request.form['fax_machine']
+	# wifi = 0 if request.form['wifi'] is None else 1
+	# white_board = request.form['white_board']
+	# telephone = request.form['telephone']
+	# reception = request.form['reception']
+	# ethernet = request.form['ethernet']
+	# parking = request.form['parking']
+	# refreshment = request.form['refreshment']
+	# vending_machine = request.form['vending_machine']
+	# projector = request.form['projector']
+	# speaker = request.form['speaker']
+	# fax_machine = request.form['fax_machine']
 	photo_url = request.form['photo_url']
 	start_datetime = request.form['start_datetime']
 	end_datetime = request.form['end_datetime']
@@ -192,10 +194,24 @@ def post():
 
 	querystring = {"address":location,"key":"AIzaSyBqvzDwbqKXjOPIztIAE7pg2U_q3sjSWGY"}
 
-	response = requests.request("GET", url, headers=headers, params=querystring)
+	response = requests.request("GET", url, params=querystring)
 
-	latitude = response.text.results[0].geometry.location.lat
-	longitude = latitude = response.text.results[0].geometry.location.lng
+	latitude = response.text[response.text.find('location'):response.text.find('location_type')]
+	latitude = latitude[latitude.find('lat') + 7:latitude.find(',')]
+	longitude = response.text[response.text.find('location'):response.text.find('location_type')]
+	longitude = longitude[longitude.find('lng') + 7:longitude.find('}') - 1]
+	_latitude = str(latitude)
+	_longitude = str(longitude)
+	print(type(latitude))
+
+	attr = uid + "', '" + name + "', '" +
+                           location + "', '" + price + "', '" + capacity +
+                           "', '" + description + "', '" + email + "', '" +
+                           phone_number + "', '" + wifi + "', '" + white_board +
+                           "', '" + telephone + "', '" + reception + "', '" +
+                           ethernet + "', '" + parking + "', '" + refreshment +
+                           "', '" + vending_machine + "', '" + projector +
+                           "', '" + speaker + "', '" + fax_machine + "', '" + str(_latitude) + "', '" + str(_longitude)
 
 	conn = mysql.connect()
 	cursor = conn.cursor()
@@ -205,15 +221,7 @@ def post():
                            "reception, ethernet, parking, refreshment, " +
                            "vending_machine, projector, speaker, fax_machine, " +
                            "latitude, longitude)" +
-                           "VALUES('" + uid + "', '" + name + "', '" +
-                           location + "', '" + price + "', '" + capacity +
-                           "', '" + description + "', '" + email + "', '" +
-                           phone_number + "', '" + wifi + "', '" + white_board +
-                           "', '" + telephone + "', '" + reception + "', '" +
-                           ethernet + "', '" + parking + "', '" + refreshment +
-                           "', '" + vending_machine + "', '" + projector +
-                           "', '" + speaker + "', '" + fax_machine + "', '" +
-                           latitude + "', '" + longitude + "')")
+                           "VALUES('" +  + "')")
 	cursor.execute(executeStatement)
 	cursor.execute("SELECT rid FROM Room ORDER BY rid DESC LIMIT 1")
 	roomData = cursor.fetchone()
