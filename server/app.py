@@ -270,7 +270,7 @@ def rate():
 def show_profile():
 	# oid = request.cookies.get('oid')
 	oid = "3"
-	return render_template('dashboard.html',rooms=get_rooms(oid))
+	return render_template('dashboard.html',rooms=get_rooms(oid), upcoming=get_upcoming_reservation(oid))
 
 def get_rooms(oid):
 	conn = mysql.connect()
@@ -305,6 +305,24 @@ def get_reservations():
 			return json.dumps(bookingList)
 	else:
 		return ''
+
+def get_upcoming_reservation(oid):
+	conn = mysql.connect()
+	cursor = conn.cursor()
+	rooms = get_rooms(oid);
+	reservations = []
+
+	if(rooms):
+		for room in rooms:
+			cursor.execute("SELECT * from Booking B WHERE rid=" + str(room[0]))
+			result = cursor.fetchone()
+			reservations.append(result)
+		return reservations
+	else:
+		return ''
+
+
+
 
 @app.route('/api/getReservation')
 def get_reservation():

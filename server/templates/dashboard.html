@@ -1,6 +1,6 @@
 {% extends "layout.html" %}
 {% block body %}
-    <div class="ui vertical inverted left visible sidebar labeled icon menu"> 
+    <div class="ui vertical inverted left visible sidebar labeled icon  menu"> 
         <a id="home-button" class="item">
             <i class="home icon"></i>
             Home
@@ -30,7 +30,7 @@
                     </div>
                 </div>
             </div>
-            <div class="three wide column">
+            <div class="four wide column">
                 <div class="ui segment">
                     <h4>Reservation Info</h4>
                     <div class="ui list">
@@ -88,118 +88,121 @@
                     </div> 
                 </div>
                 <button class="negative ui button fluid">Cancel Reservation</button>    
-            </div>
-            <div class="ten wide column">
-                <h3>Upcoming Reservations</h3>
-                 <table class="ui teal table">
-                      <thead>
-                        <tr>
-                            <th>User</th>
-                            <th>Date</th>
-                            <th>Time</th>
-                            <th>Room #</th>
-                            <th>Cost</th>
-                        </tr>
-                      </thead><tbody>
-                        <tr>
-                            <td><img src="{{ url_for('static', filename='img/elliot.jpg') }}" data-html="<div class='header'>Elliot Fu <div class='ui star rating'><i class='active icon'></i><i class='active icon'></i><i class='active icon'></i><i class='icon'></i><i class='icon'></i></div></div><div class='content'>Phone: 555-555-5555<br>Email: hi@YoloBolo.com</div>" class="ui avatar image"></td>
-                            <td>05/26/17</td>
-                            <td>12:00PM - 2:00PM</td>
-                            <td>1234 Notreal Road, Room 302, CA, Irvine</td>
-                            <td>$50</td>
-                        </tr>
-                        <tr>
-                            <td><img src="{{ url_for('static', filename='img/elliot.jpg') }}" data-html="<div class='header'>Chris Wong<div class='ui star rating'><i class='active icon'></i><i class='active icon'></i><i class='active icon'></i><i class='active icon'></i><i class='active icon'></i></div></div><div class='content'>Phone: 555-555-5555<br>Email: hi@YoloBolo.com<br> Company:YOLOBOLO</div> " class="ui avatar image"></td>                       
-                            <td>05/27/17</td>
-                            <td>3:00PM - 5:00PM</td>
-                            <td>1234 Notreal Road, Room 302, CA, Irvine</td>
-                            <td>$50</td>
-                        </tr>
-                      </tbody>
-                </table>
-            </div>      
+            </div>  
+        </div>
+        <div class="upcoming-reservations-table">
+            <h3>Upcoming Reservations</h3>
+             <table class="ui teal table">
+                  <thead>
+                    <tr>
+                        <th>User</th>
+                        <th>Room</th>
+                        <th>Date</th>
+                        <th>Starting Time</th>
+                        <th>Ending time</th>
+                        <th>Cost</th>
+                    </tr>
+                  </thead><tbody>
+                  {% for reservation in upcoming %}
+                    <tr>
+                        <td><img src="{{ url_for('static', filename='img/elliot.jpg') }}" data-html="<div class='header'>Chris Wong<div class='ui star rating'><i class='active icon'></i><i class='active icon'></i><i class='active icon'></i><i class='active icon'></i><i class='active icon'></i></div></div><div class='content'>Phone: 555-555-5555<br>Email: hi@YoloBolo.com<br> Company:YOLOBOLO</div> " class="ui avatar image"></td>
+                        {% for room in rooms %}
+                        {% if room[0] == reservation[2] %}
+                            <td>{{room[2]}} </td>
+                        {% endif %}
+                        {% endfor %}   
+                        <td>{{ reservation[5].date() }}</td>
+                        <td>{{ reservation[5].time() }}</td>
+                        <td>{{ reservation[6].time() }}</td>
+                        <td>${{ reservation[3] }}</td>
+                    </tr>
+                  {% endfor %}
+                    </tr>
+                  </tbody>
+            </table>
         </div>
         <div class="upcoming-reservations-table">
             <h3>Rooms listed</h3>
              <table class="ui orange celled table">
                   <thead>
                     <tr>
-                        <th>Address</th>
-                        <th>Room</th>
+                        <th>Name</th>
+                        <th>Location</th>
+                        <th>Price</th>
                         <th>Wi-fi</th>
+                        <th>Whiteboard</th>
+                        <th>Reception</th>
                         <th>Ethernet</th>
                         <th>Parking</th>
-                        <th>Phone</th>
-                        <th>Fax</th>
                         <th>Refreshments</th>
-                        <th>Speakers</th>
                         <th>Projector</th>
-                        <th>Whiteboard</th>
+                        <th>Speakers</th>
                     </tr>
                   </thead>
                   <tbody>
+                    {% for room in rooms %}
                     <tr>
-                        <td>1234 Notreal Road, CA, Irvine</td>
-                        <td>Room 302</td>
+                        <td>{{ room[2] }}</td>
+                        <td>{{ room[3] }}</td>
+                        <td>{{ room[4] }}</td>
                         <td class="center aligned">
-                            <i class="large green checkmark icon"></i>
+                            {% if room[9] %}
+                                <i class="large green checkmark icon"></i>
+                            {% else %}
+                                <i class="large red x icon"></i> 
+                            {% endif %}
                         </td>
                         <td class="center aligned">
-                            <i class="large red x icon"></i>
+                            {% if room[10] %}
+                                <i class="large green checkmark icon"></i>
+                            {% else %}
+                                <i class="large red x icon"></i> 
+                            {% endif %}
                         </td>
                         <td class="center aligned">
-                            <i class="large green checkmark icon"></i>
+                            {% if room[12] %}
+                                <i class="large green checkmark icon"></i>
+                            {% else %}
+                                <i class="large red x icon"></i> 
+                            {% endif %}
                         </td>     
                         <td class="center aligned">
-                            <i class="large green checkmark icon"></i>
+                            {% if room[13] %}
+                                <i class="large green checkmark icon"></i>
+                            {% else %}
+                                <i class="large red x icon"></i> 
+                            {% endif %}
                         </td>  
                         <td class="center aligned">
-                            <i class="large red x icon"></i>
+                            {% if room[14] %}
+                                <i class="large green checkmark icon"></i>
+                            {% else %}
+                                <i class="large red x icon"></i> 
+                            {% endif %}
                         </td>
                         <td class="center aligned">
-                            <i class="large green checkmark icon"></i>
+                            {% if room[15] %}
+                                <i class="large green checkmark icon"></i>
+                            {% else %}
+                                <i class="large red x icon"></i> 
+                            {% endif %}
                         </td>
                         <td class="center aligned">
-                            <i class="large green checkmark icon"></i>
-                        </td>     
+                            {% if room[16] %}
+                                <i class="large green checkmark icon"></i>
+                            {% else %}
+                                <i class="large red x icon"></i> 
+                            {% endif %}
+                        </td>      
                         <td class="center aligned">
-                            <i class="large green checkmark icon"></i>
-                        </td> 
-                        <td class="center aligned">
-                            <i class="large green checkmark icon"></i>
-                        </td>    
-                    </tr> 
-                    <tr>
-                        <td>1234 Notreal Road, CA, Irvine</td>
-                        <td>Room 420</td>
-                        <td class="center aligned">
-                            <i class="large green checkmark icon"></i>
-                        </td>
-                        <td class="center aligned">
-                            <i class="large green checkmark icon"></i>
-                        </td>
-                        <td class="center aligned">
-                            <i class="large green checkmark icon"></i>
-                        </td>     
-                        <td class="center aligned">
-                            <i class="large green checkmark icon"></i>
-                        </td>  
-                        <td class="center aligned">
-                            <i class="large green checkmark icon"></i>
-                        </td>
-                        <td class="center aligned">
-                            <i class="large green checkmark icon"></i>
-                        </td>
-                        <td class="center aligned">
-                            <i class="large green checkmark icon"></i>
-                        </td>     
-                        <td class="center aligned">
-                            <i class="large green checkmark icon"></i>
-                        </td> 
-                        <td class="center aligned">
-                            <i class="large green checkmark icon"></i>
-                        </td>    
-                    </tr>         
+                            {% if room[17] %}
+                                <i class="large green checkmark icon"></i>
+                            {% else %}
+                                <i class="large red x icon"></i> 
+                            {% endif %}
+                        </td>                                                      
+                    </tr>
+                    {% endfor %}         
                   </tbody>
             </table>
             <button class="circular ui orange button icon"><i class="plus icon"></i> &nbsp;Post new room</button> 
