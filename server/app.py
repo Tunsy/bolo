@@ -318,7 +318,8 @@ def get_upcoming_reservation(oid):
 		for room in rooms:
 			cursor.execute("SELECT * from Booking B WHERE rid=" + str(room[0]))
 			result = cursor.fetchall()
-			reservations.append(result)
+			for r in result:
+				reservations.append(r)
 		return reservations
 	else:
 		return ''
