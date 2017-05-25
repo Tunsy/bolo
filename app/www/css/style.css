@@ -19,6 +19,6 @@ input[readonly]:not(.cloned-text-input) {
 	background: inherit;
 }
 
-#reserve h3 {
-	margin: 10px;
+#reserve h3, #reserve h4 {
+	margin: 20px 10px;
 }

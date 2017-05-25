@@ -5,7 +5,7 @@ import simplejson as json
 
 mysql = MySQL()
 app = Flask(__name__)
-app.config['MYSQL_DATABASE_USER'] = 'bolo'
+app.config['MYSQL_DATABASE_USER'] = 'root'
 app.config['MYSQL_DATABASE_PASSWORD'] = ''
 app.config['MYSQL_DATABASE_DB'] = 'bolo'
 app.config['MYSQL_DATABASE_HOST'] = 'localhost' #'54.153.65.246'
@@ -286,8 +286,7 @@ def get_user():
 	cursor.execute("SELECT * FROM User where uid='" + uid + "'")
 	data = cursor.fetchone()
 	# Return user info as JSON
-	return json.dumps({"email": data[2], "first_name": data[3],
-                           "last_name": data[4], "rating": data[5]})
+	return json.dumps({"email": data[2], "name": data[3] + ' ' + data[4], "rating": data[5]})
 
 @app.route('/api/getReservations')
 def get_reservations():
