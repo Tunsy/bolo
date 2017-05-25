@@ -317,7 +317,7 @@ def get_upcoming_reservation(oid):
 	if(rooms):
 		for room in rooms:
 			cursor.execute("SELECT * from Booking B WHERE rid=" + str(room[0]))
-			result = cursor.fetchone()
+			result = cursor.fetchall()
 			reservations.append(result)
 		return reservations
 	else:
