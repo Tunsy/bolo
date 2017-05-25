@@ -87,7 +87,7 @@ CREATE TABLE Availability (
 );
 
 CREATE TABLE Booking (
-	`bid`				INT UNSIGNED NOT NULL,
+	`bid`				INT UNSIGNED AUTO_INCREMENT NOT NULL,
 	`cid`				INT UNSIGNED NOT NULL,
     `rid`				INT UNSIGNED NOT NULL,
     `grand_total_price`	DECIMAL(10,2) NOT NULL,
@@ -106,4 +106,3 @@ CREATE TABLE CustomerRentsBooking (
     FOREIGN KEY         (`bid`) REFERENCES Booking(`bid`),
     FOREIGN KEY         (`cid`) REFERENCES Customer(`cid`)
 );
-

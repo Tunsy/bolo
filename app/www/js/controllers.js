@@ -1,4 +1,5 @@
-API_URL = 'http://localhost:5000';
+// API_URL = 'http://localhost:5000';
+API_URL = 'http://54.153.65.246'
 
 angular.module('bolo.controllers', [])
 
@@ -14,10 +15,11 @@ angular.module('bolo.controllers', [])
   var loadReservations = function() {
     $http.get(API_URL + '/api/getReservations?uid=' + window.localStorage.getItem('uid')).then(function(response) {
       $scope.reservations = response.data;
+      console.log(response.data)
       $scope.reservations.forEach(function(r) {
         var start = new Date(r.start_datetime);
         var end = new Date(r.end_datetime);
-        r.date = start.toDateString() + ' ' + start.toLocaleTimeString()
+        r.date = new Date(r.start_datetime).toDateString() + ' ' + new Date(r.start_datetime).toLocaleTimeString()
       })
     })
   }
@@ -50,6 +52,7 @@ angular.module('bolo.controllers', [])
   // $scope.lat = 33.6415565;
   // $scope.lng = -117.8252812;
   $scope.listing = [];
+  $scope.userInfo = {};
 
   var searchListings = function() {
     var searchUrl = API_URL + '/api/search?lat=' + $scope.lat + '&lng=' + $scope.lng + '&filters={"capacity":' + $scope.capacity + ', "price": ' + $scope.price + ', "rating": ' + $scope.rating + ', "wifi": ' + $scope.wifi + ', "white_board": ' + $scope.white_board + ', "telephone": ' + $scope.telephone + ', "reception": ' + $scope.reception + ', "ethernet": ' + $scope.ethernet + ', "parking": ' + $scope.parking + ', "refreshment": ' + $scope.refreshment + ', "vending_machine": ' + $scope.vending_machine + ', "projector": ' + $scope.projector + ', "speaker": ' + $scope.speaker + ', "fax_machine": ' + $scope.fax_machine + ', "start_datetime": "' + new Date($scope.startDateTime).getFullYear() + '-' + (new Date($scope.startDateTime).getMonth() + 1) + '-' + new Date($scope.startDateTime).getDate() + ' ' + new Date($scope.startDateTime).getHours() + ':' + new Date($scope.startDateTime).getMinutes() + ':' + new Date($scope.startDateTime).getSeconds() + '", "end_datetime": "' + new Date($scope.endDateTime).getFullYear() + '-' + (new Date($scope.endDateTime).getMonth() + 1) + '-' + new Date($scope.endDateTime).getDate() + ' ' + new Date($scope.endDateTime).getHours() + ':' + new Date($scope.endDateTime).getMinutes() + ':' + new Date($scope.endDateTime).getSeconds() + '"}';
@@ -143,19 +146,56 @@ angular.module('bolo.controllers', [])
       return $scope.listingData.price * (new Date($scope.endDateTime) - new Date($scope.startDateTime))/(1000*60*60);
   }
 
+  $scope.getTotalTime = function() {
+    if ($scope.listingData)
+      return (new Date($scope.endDateTime) - new Date($scope.startDateTime))/(1000*60*60);
+  }
+
   $scope.reserve = function() {
-    
+    $http({
+      method: 'POST',
+      url: API_URL + '/api/book',
+      data: {
+        userID: window.localStorage.getItem('uid'),
+        roomID: $scope.listingData.rid
+      },
+      headers: {'Content-Type': 'application/x-www-form-urlencoded'},
+      transformRequest: function(obj) {
+        var str = [];
+        for(var p in obj)
+        str.push(encodeURIComponent(p) + "=" + encodeURIComponent(obj[p]));
+        return str.join("&");
+      }
+    }).then(function successCallback(response) {
+      console.log(response)
+      if (response.data === 'Success') {
+        var successPopup = $ionicPopup.alert({
+          title: 'Reservation confirmed!',
+          buttons:[]
+        });
+        successPopup.then(function(res) {
+          loadReservations();
+        });
+
+        $timeout(function() {
+          successPopup.close();
+          $scope.closeReserve();
+        }, 1000);
+      }
+    }, function errorCallback(response) {
+      console.log(JSON.stringify(response));
+    });
   };
 
   var getUserInfo = function() {
     $http.get(API_URL + '/api/getUser?uid=' + window.localStorage.getItem('uid')).then(function(response) {
       console.log(response.data);
-      return response.data;
+      $scope.userInfo = response.data;
     })
   }
 
   if (window.localStorage.getItem('uid') !== null && window.localStorage.getItem('uid') !== '') {
-    $scope.userInfo = getUserInfo();
+    getUserInfo();
   }
 
   $ionicPlatform.ready(function() {
@@ -190,6 +230,7 @@ angular.module('bolo.controllers', [])
         endDateTime = new Date(new Date(new Date(new Date($scope.startDateTime).setHours(new Date($scope.startDateTime).getHours() + 1)).setMinutes(0)).setSeconds(0));
         $scope.endDateTime = endDateTime.toDateString() + ' ' + endDateTime.toLocaleTimeString();
         $scope.getEndDateTime = 'To: ' + $scope.endDateTime;
+        searchListings();
       });
     }
 
@@ -203,12 +244,19 @@ angular.module('bolo.controllers', [])
       }).then(function(datetime) {
         $scope.endDateTime = datetime.toDateString() + ' ' + datetime.toLocaleTimeString();
         $scope.getEndDateTime = 'To: ' + $scope.endDateTime;
+        searchListings();
       });
     }
   });
 })
 
-.controller('ReservationsCtrl', function($scope) {
+.controller('ReservationsCtrl', function($scope, $stateParams, $http) {
+  if ($stateParams.reservationId) {
+    $http.get(API_URL + '/api/getReservation?bid=' + $stateParams.reservationId).then(function(response) {
+      console.log(response.data)
+      $scope.reservationData = response.data;
+    })
+  }
   if (window.localStorage.getItem('uid') === null || window.localStorage.getItem('uid') === '') {
     $scope.showLogin();
   }

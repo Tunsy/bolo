@@ -21,6 +21,23 @@
             <input type="text" ng-click="setEndDate()" readonly placeholder="End Date" ng-model="getEndDateTime">
           </label>
         </div>
+        <hr>
+        <h3>Confirm your details</h3>
+        <div class="list list-inset main-list">
+          <label class="item item-input">
+            <i class="icon ion-person placeholder-icon"></i>
+            <input type="text" placeholder="Peter Anteater" ng-model="userInfo.name">
+          </label>
+        </div>
+        <div class="list list-inset main-list">
+          <label class="item item-input">
+            <i class="icon ion-email placeholder-icon"></i>
+            <input type="text" placeholder="panteater@uci.edu" ng-model="userInfo.email">
+          </label>
+        </div>
+        <hr>
+        <h3>Order Summary</h3>
+        <h4>${{ listingData.price }}/hour x {{ getTotalTime() }} hours = ${{ getTotalPrice() }}</h4>
       </form>
     </div>
   </ion-content>
