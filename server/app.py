@@ -166,6 +166,7 @@ def show_post():
 @app.route('/api/post', methods=['POST'])
 def post():
 	# TODO: Insert listing into database
+	return ''
 	# uid = request.form['uid']       #must be in owner
 	# uid = 3
 	# name = request.form['name']
