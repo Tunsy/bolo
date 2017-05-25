@@ -166,11 +166,19 @@ def post():
 	projector = request.form['projector']
 	speaker = request.form['speaker']
 	fax_machine = request.form['fax_machine']
-	latitude = request.form['latitude']
-	longitude = request.form['longitude']
 	photo_url = request.form['photo_url']
 	start_datetime = request.form['start_datetime']
 	end_datetime = request.form['end_datetime']
+
+	url = "https://maps.googleapis.com/maps/api/geocode/json"
+
+	querystring = {"address":location,"key":"AIzaSyBqvzDwbqKXjOPIztIAE7pg2U_q3sjSWGY"}
+
+	response = requests.request("GET", url, headers=headers, params=querystring)
+
+	latitude = response.text.results[0].geometry.location.lat
+	longitude = latitude = response.text.results[0].geometry.location.lng
+
 	conn = mysql.connect()
 	cursor = conn.cursor()
 	executeStatement = ("INSERT INTO Room(oid, name, location, " +
