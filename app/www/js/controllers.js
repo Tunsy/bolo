@@ -147,6 +147,17 @@ angular.module('bolo.controllers', [])
     
   };
 
+  var getUserInfo = function() {
+    $http.get(API_URL + '/api/getUser?uid=' + window.localStorage.getItem('uid')).then(function(response) {
+      console.log(response.data);
+      return response.data;
+    })
+  }
+
+  if (window.localStorage.getItem('uid') !== null && window.localStorage.getItem('uid') !== '') {
+    $scope.userInfo = getUserInfo();
+  }
+
   $ionicPlatform.ready(function() {
     // Get device location
     $cordovaGeolocation.getCurrentPosition({

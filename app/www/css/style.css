@@ -8,7 +8,7 @@
 }
 
 .main-list+.main-list {
-	margin: 10px 10px;
+	margin: 10px;
 }
 
 .listing-details {
@@ -17,4 +17,8 @@
 
 input[readonly]:not(.cloned-text-input) {
 	background: inherit;
+}
+
+#reserve h3 {
+	margin: 10px;
 }

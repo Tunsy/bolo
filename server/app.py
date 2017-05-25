@@ -273,7 +273,7 @@ def show_profile():
 
 @app.route('/api/getUser')
 def get_user():
-	uid = request.form['uid']
+	uid = request.args.get('uid')
 	cursor = mysql.get_db().cursor()
 	cursor.execute("SELECT * FROM User where uid='" + uid + "'")
 	data = cursor.fetchone()
