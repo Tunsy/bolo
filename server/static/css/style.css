@@ -102,9 +102,9 @@ p {
     padding: 3em 0;
 }
 
-.login-box{
+#login-box {
     margin-top: 120px !important;
-    width: 450px !important;
+    width: 550px !important;
 }
 
 .upcoming{

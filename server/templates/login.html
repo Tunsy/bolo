@@ -1,19 +1,18 @@
 {% extends "layout.html" %}
 {% block body %}
   <script>
-      $('body').css("background-image", "../img/cool-pineapple.jpg")
+      $('body').css("background-image", "linear-gradient(-20deg, #ffd660 0%, #f4831f 100%)")
+      //$('body').css("background-color", "#ffecc4")
+      $('body').css("background-size", "100% auto")
   </script>
 <div class="ui middle aligned center aligned grid">
   <div class="column">
-    <div class="login-box">
-      <h2 class="ui orange header login-image">
+    <div id="login-box" style="width: 350px;margin-left: auto;margin-right: auto;margin-top:100px;">
+      <h2 class="ui white header login-image">
         <img src="../static/img/bolo_icon.png" height="70px">
-        <div class="content">
-          BOLO
-        </div>
       </h2>
 
-      <form class="ui large form">
+      <form class="ui large form" action="/dashboard">
         <div class="ui stacked segment">
           <div class="field">
             <div class="ui left icon input">
@@ -27,7 +26,7 @@
               <input type="password" name="password" placeholder="Password">
             </div>
           </div>
-          <div class="ui fluid orange submit button">Login</div>
+          <button class="ui fluid orange submit button">Login</button>
         </div>
       </form>
 
