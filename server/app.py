@@ -5,7 +5,7 @@ import simplejson as json
 
 mysql = MySQL()
 app = Flask(__name__)
-app.config['MYSQL_DATABASE_USER'] = 'root'
+app.config['MYSQL_DATABASE_USER'] = 'bolo'
 app.config['MYSQL_DATABASE_PASSWORD'] = ''
 app.config['MYSQL_DATABASE_DB'] = 'bolo'
 app.config['MYSQL_DATABASE_HOST'] = 'localhost' #'54.153.65.246'
@@ -268,7 +268,16 @@ def rate():
 
 @app.route('/dashboard')
 def show_profile():
-	return render_template('dashboard.html')
+	# oid = request.cookies.get('oid')
+	oid = "3"
+	return render_template('dashboard.html',rooms=get_rooms(oid))
+
+def get_rooms(oid):
+	conn = mysql.connect()
+	cursor = conn.cursor()
+	cursor.execute("SELECT * FROM Room R WHERE oid=" + oid)
+	result = cursor.fetchall()
+	return result
 
 @app.route('/api/getUser')
 def get_user():
