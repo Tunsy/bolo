@@ -12,12 +12,12 @@
         <img src="../static/img/bolo_icon.png" height="70px">
       </h2>
 
-      <form class="ui large form" action="/dashboard">
-        <div class="ui stacked segment">
+      <form class="ui large form" action="/api/loginOwner" method="post" id="login-form">
+        <div class="ui stacked segment">`
           <div class="field">
             <div class="ui left icon input">
               <i class="user icon"></i>
-              <input type="text" name="email" placeholder="E-mail address">
+              <input type="text" name="email" placeholder="panteater@uci.edu">
             </div>
           </div>
           <div class="field">
@@ -28,10 +28,12 @@
           </div>
           <button class="ui fluid orange submit button">Login</button>
         </div>
+        <div class="ui error message"></div>
       </form>
 
+
       <div class="ui message">
-       New here?<a href="#"> Create an account</a>
+       New here?<a href="/signup"> Create an account</a>
       </div>
     </div>  
   </div>
