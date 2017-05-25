@@ -106,4 +106,3 @@ CREATE TABLE CustomerRentsBooking (
     FOREIGN KEY         (`bid`) REFERENCES Booking(`bid`),
     FOREIGN KEY         (`cid`) REFERENCES Customer(`cid`)
 );
-
