@@ -1,0 +1,46 @@
+{% extends "layout.html" %}
+{% block body %}
+    <script>
+        $('body').css("background-image", "linear-gradient(-20deg, #ffd660 0%, #f4831f 100%)")
+    </script>
+    <div class="listing-form">
+        <form class="ui large form" action="/api/signup" method="post" id="registration-form">
+            <h3 class="ui dividing header"> <img src="../static/img/bolo_icon.png" height="40px">BOLO Sign Up</h3>
+            <div class="field">
+                <label>Name</label>
+                <div class="fields">
+                    <div class="seven wide field">
+                        <input type="text" name="first-name" placeholder="Peter"> 
+                    </div>
+                    <div class="seven wide field">
+                        <input type="text" name="last-name" placeholder="Anteater"> 
+                    </div>
+                </div>
+            </div>
+            <div class="three fields">
+                <div class="field">
+                    <label>Email</label>
+                     <input type="text" name="email" placeholder="panteater@uci.edu"> 
+                </div>
+                <div class="field">
+                    <label>Password</label>
+                    <input type="text" name="password" placeholder="Password"> 
+                </div>
+                <div class="field">
+                    <label>Phone number</label>
+                     <input type="text" name="phone" placeholder="XXX-XXX-XXXX"> 
+                </div>
+            </div>
+            <div class="listing-submit">
+                <div class="inline field">
+                    <div class="ui checkbox">
+                      <input type="checkbox" id="terms" name="terms">
+                      <label for="terms">I agree to the terms and conditions</label>
+                    </div>
+                </div>
+                <button class="positive ui large submit button">Register</button>
+            </div>
+            <div class="ui error message"></div>
+        </form>
+    </div>
+{% endblock %}

@@ -5,7 +5,7 @@ import simplejson as json
 
 mysql = MySQL()
 app = Flask(__name__)
-app.config['MYSQL_DATABASE_USER'] = 'root'
+app.config['MYSQL_DATABASE_USER'] = 'bolo'
 app.config['MYSQL_DATABASE_PASSWORD'] = ''
 app.config['MYSQL_DATABASE_DB'] = 'bolo'
 app.config['MYSQL_DATABASE_HOST'] = 'localhost' #'54.153.65.246'
@@ -105,9 +105,8 @@ def show_sign_up():
 def signup():
 	email = request.form['email']
 	password = request.form['password']
-	fullName = request.form['name'].split()
-	firstName = fullName[0]
-	lastName = fullName[1]
+	firstName = request.form['first-name']
+	lastName = request.form['last-name']
 	# TODO: Create account and return UID and access token
 	conn = mysql.connect()
 	cursor = conn.cursor()
@@ -120,10 +119,12 @@ def signup():
 	cursor.execute(checkStatement)
 	data = cursor.fetchone()
 	if data != None:
-		conn.commit()
-		return str(data[0])
+		#resp = make_response(render_template('dashboard.html'))
+		#resp.set_cookie('uid', data[0])
+		return render_template('dashboard.html', rooms=get_rooms(data[0]), upcoming=get_upcoming_reservation(data[0]))
 	else:
-		return 'Error'
+		return render_template('register.html')
+
 @app.route('/login')
 def show_login():
 	return render_template('login.html')
@@ -136,9 +137,26 @@ def login():
 	cursor.execute("SELECT * FROM User where email='" + email + "' and password = '" + password + "'")
 	data = cursor.fetchone()
 	if data != None:
+		#resp = make_response(render_template('dashboard.html'))
+		#resp.set_cookie('uid', data[0])
 		return json.dumps({'uid':data[0], 'first_name':data[3], 'last_name':data[4]})
 	else:
 		return ''
+
+@app.route('/api/loginOwner', methods=['POST'])
+def loginOwner():
+	email = request.form['email']
+	password = request.form['password']
+	cursor = mysql.get_db().cursor()
+	cursor.execute("SELECT * FROM User where email='" + email + "' and password = '" + password + "'")
+	data = cursor.fetchone()
+	if data != None:
+		#resp = make_response(render_template('dashboard.html'))
+		#resp.set_cookie('uid', data[0])
+		return render_template('dashboard.html', rooms=get_rooms(data[0]), upcoming=get_upcoming_reservation(data[0]))
+		#return json.dumps({'uid':data[0], 'first_name':data[3], 'last_name':data[4]})
+	else:
+		return render_template('login.html')
 
 @app.route('/post')
 def show_post():
@@ -286,7 +304,7 @@ def show_profile():
 def get_rooms(oid):
 	conn = mysql.connect()
 	cursor = conn.cursor()
-	cursor.execute("SELECT * FROM Room R WHERE oid=" + oid)
+	cursor.execute("SELECT * FROM Room R WHERE oid=" + str(oid))
 	result = cursor.fetchall()
 	return result
 
