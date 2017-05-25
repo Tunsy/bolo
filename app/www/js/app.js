@@ -41,16 +41,6 @@ angular.module('bolo', ['ionic', 'bolo.controllers', 'ngCordova'])
     }
   })
 
-  .state('app.search', {
-    url: '/search',
-    views: {
-      'menuContent': {
-        templateUrl: 'templates/search.html',
-        controller: 'SearchCtrl'
-      }
-    }
-  })
-
   .state('app.listing', {
     url: '/listing/:listingId',
     views: {
@@ -76,7 +66,7 @@ angular.module('bolo', ['ionic', 'bolo.controllers', 'ngCordova'])
     views: {
       'menuContent': {
         templateUrl: 'templates/reservation.html',
-        controller: 'ReservationCtrl'
+        controller: 'ReservationsCtrl'
       }
     }
   })
