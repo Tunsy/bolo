@@ -1,5 +1,16 @@
 <ion-view view-title="Reservation">
 	<ion-content>
-		
+		<img src="{{ reservationData.photo }}">
+		<div id="reservation">
+			<h3>{{ reservationData.name }}</h3>
+			<h5>{{ reservationData.location }}</h5>
+			<p>From {{ reservationData.start_datetime }} to {{ reservationData.end_datetime }}</p>
+
+			<hr>
+
+			<h4>Contact Information</h4>
+			<p><i class="icon ion-ios-telephone"></i> {{ reservationData.phone }}</p>
+			<p><i class="icon ion-email"></i> {{ reservationData.email }}</p>
+		</div>
 	</ion-content>
 </ion-view>

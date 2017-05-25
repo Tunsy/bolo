@@ -69,7 +69,7 @@ def search():
 		query += " AND end_datetime >= '" + str(filters.end_datetime) + "'"
 
 	query += " ORDER BY distance_in_miles"
-	print(query)
+	# print(query)
 	cursor.execute(query)
 	result = cursor.fetchall()
 	searchList = []
@@ -237,7 +237,10 @@ def book():
 	    if last_row != None:
 	        conn.commit()
 	        return 'Success'
-	except:
+	except Exception as inst:
+		print type(inst)
+		print inst.args
+		print inst
 		return 'Failure'
 	
 
@@ -294,14 +297,14 @@ def get_reservations():
 	userID = request.args.get('uid')
 	cursor = conn.cursor()
 
-	cursor.execute("SELECT * FROM Booking B, Room R, Room_Photo P WHERE cid=" + userID + " AND R.rid = B.rid AND R.rid = P.rid")
+	cursor.execute("SELECT * FROM Booking B, Room R, Room_Photo P WHERE B.cid=" + userID + " AND R.rid = B.rid AND R.rid = P.rid")
 	result = cursor.fetchall()
 	bookingList = []
 	if result:
 		for row in result:
 			bookingDict = {'bid':row[0], 'rid':row[2], 'grand_total_price':row[3], 'subtotal_price':row[4], 'start_datetime':str(row[5]), 'end_datetime':str(row[6]), 'name':row[9], 'location':row[10], 'photo':row[31]}
 			bookingList.append(bookingDict)
-			return json.dumps(bookingList)
+		return json.dumps(bookingList)
 	else:
 		return ''
 
@@ -311,9 +314,9 @@ def get_reservation():
 	bid = request.args.get('bid')
 	cursor = conn.cursor()
 
-	cursor.execute("SELECT * FROM Booking B, Room R WHERE B.bid = " + bid + " AND R.rid = B.rid")
+	cursor.execute("SELECT * FROM Booking B, Room R, Room_Photo P WHERE B.bid = " + bid + " AND R.rid = B.rid AND R.rid = P.rid")
 	data = cursor.fetchone()
-	return json.dumps({'bid':data[0], 'rid':data[2], 'grand_total_price':data[3], 'subtotal_price':data[4], 'start_datetime':str(data[5]), 'end_datetime':str(data[6]), 'name':data[9], 'location':data[10], 'email':data[14], 'phone':data[15]})
+	return json.dumps({'bid':data[0], 'rid':data[2], 'grand_total_price':data[3], 'subtotal_price':data[4], 'start_datetime':str(data[5]), 'end_datetime':str(data[6]), 'name':data[9], 'location':data[10], 'email':data[14], 'phone':data[15], 'photo':data[31]})
 
 if __name__ == '__main__':
 	app.run()
