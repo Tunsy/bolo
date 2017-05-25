@@ -109,7 +109,7 @@ def signup():
 	firstName = fullName[0]
 	lastName = fullName[1]
 	# TODO: Create account and return UID and access token
-        conn = mysql.connect()
+	conn = mysql.connect()
 	cursor = conn.cursor()
 	executeStatement = ("INSERT INTO User(password, email, first_name," +
                            "last_name) VALUES('" + password + "', '" + email +
@@ -188,18 +188,17 @@ def post():
                            "', '" + vending_machine + "', '" + projector +
                            "', '" + speaker + "', '" + fax_machine + "', '" +
                            latitude + "', '" + longitude + "')")
-        cursor.execute(executeStatement)
+	cursor.execute(executeStatement)
 	cursor.execute("SELECT rid FROM Room ORDER BY rid DESC LIMIT 1")
 	roomData = cursor.fetchone()
 	if roomData != None:
 		conn.commit()
 	else:
 		return 'Error: Unable to add room'
-        executeStatementPhoto = ("INSERT INTO Room_Photo VALUES('" +
-                                 str(roomData[0]) + "', '" + photo_url + "')")
-        cursor.execute(executeStatementPhoto)
+	executeStatementPhoto = ("INSERT INTO Room_Photo VALUES(\'" + str(roomData[0]) + "\', \'" + photo_url + "\')")
+	cursor.execute(executeStatementPhoto)
 	cursor.execute("SELECT rid FROM Room_Photo WHERE rid =" + str(roomData[0]))
-        photoData = cursor.fetchone()
+	photoData = cursor.fetchone()
 	if photoData != None:
 		conn.commit()
 	else:
@@ -207,9 +206,9 @@ def post():
 	executeStatementAvailability = ("INSERT INTO Availability VALUES('" +
                                  str(roomData[0]) + "', '" + start_datetime +
                                  "', '" + end_datetime + "')")
-        cursor.execute(executeStatementAvailability)
+	cursor.execute(executeStatementAvailability)
 	cursor.execute("SELECT rid FROM Availability WHERE rid =" + str(roomData[0]))
-        availabilityData = cursor.fetchone()
+	availabilityData = cursor.fetchone()
 	if availabilityData != None:
 		conn.commit()
 		return str(roomData[0])      #room's id
@@ -221,7 +220,7 @@ def book():
 	# Book the reservation
 	userID = request.form['userID']
 	roomID = request.form['roomID']
-        conn = mysql.connect()
+	conn = mysql.connect()
 	cursor = conn.cursor()
 
 	cursor.execute("SELECT price FROM Room WHERE rid=" + roomID)
@@ -244,7 +243,7 @@ def book():
 
 @app.route('/api/rate', methods=['POST'])
 def rate():
-        bid = request.form['bid']
+	bid = request.form['bid']
 	rating = request.form['rating']
 	comments = request.form['comments']
 
@@ -252,19 +251,19 @@ def rate():
 	cursor = conn.cursor()
 
 	cursor.execute("SELECT rid FROM Booking WHERE bid=" + bid)
-        data = cursor.fetchone()
-        rid = data[0]
-        try:
-                cursor.execute("INSERT INTO Room_Rating(rid, rating, comments) VALUES('" + str(rid) + "', '" + str(rating) + "', '" + comments + "')")
-                last_row = cursor.lastrowid
-                if last_row != None:
-                        conn.commit()
-                        return 'Success'
+	data = cursor.fetchone()
+	rid = data[0]
+	try:
+            cursor.execute("INSERT INTO Room_Rating(rid, rating, comments) VALUES('" + str(rid) + "', '" + str(rating) + "', '" + comments + "')")
+            last_row = cursor.lastrowid
+            if last_row != None:
+                    conn.commit()
+                    return 'Success'
 	except:
 		return 'Failure'
 
-        cursor.execute("UPDATE Room SET rating = (SELECT AVG(rating) from Room_Rating WHERE rid = " + str(rid) + ") WHERE rid = " + str(rid))
-        conn.commit()
+	cursor.execute("UPDATE Room SET rating = (SELECT AVG(rating) from Room_Rating WHERE rid = " + str(rid) + ") WHERE rid = " + str(rid))
+	conn.commit()
 	# Update the rating of the listing in the database
 
 @app.route('/dashboard')

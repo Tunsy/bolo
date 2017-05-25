@@ -69,6 +69,19 @@ h3.ui.header {
     font-size: 2em;
 }
 
+
+.accordion-dropdown{
+    padding-left: 6em;
+}
+
+.upcoming-reservations-table{
+    margin-top: 20px;
+    margin-bottom: 20px;
+}
+
+.ui.table{
+    width: auto;
+
 h4 {
     font-size: 1.5em;
 }
@@ -87,4 +100,13 @@ p {
 
 .ui.inverted.vertical.footer {
     padding: 3em 0;
+}
+
+.login-box{
+    margin-top: 120px !important;
+    width: 450px !important;
+}
+
+.upcoming{
+    margin-top: -200px;
 }
