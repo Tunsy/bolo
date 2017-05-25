@@ -167,87 +167,87 @@ def show_post():
 def post():
 	# TODO: Insert listing into database
 	# uid = request.form['uid']       #must be in owner
-	uid = 3
-	name = request.form['name']
-	location = request.form['location']
-	price = request.form['price']
-	capacity = request.form['capacity']
-	description = request.form['description']
-	email = request.form['email']
-	phone_number = request.form['phone_number']
-	# wifi = 0 if request.form['wifi'] is None else 1
-	# white_board = request.form['white_board']
-	# telephone = request.form['telephone']
-	# reception = request.form['reception']
-	# ethernet = request.form['ethernet']
-	# parking = request.form['parking']
-	# refreshment = request.form['refreshment']
-	# vending_machine = request.form['vending_machine']
-	# projector = request.form['projector']
-	# speaker = request.form['speaker']
-	# fax_machine = request.form['fax_machine']
-	photo_url = request.form['photo_url']
-	start_datetime = request.form['start_datetime']
-	end_datetime = request.form['end_datetime']
+	# uid = 3
+	# name = request.form['name']
+	# location = request.form['location']
+	# price = request.form['price']
+	# capacity = request.form['capacity']
+	# description = request.form['description']
+	# email = request.form['email']
+	# phone_number = request.form['phone_number']
+	# # wifi = 0 if request.form['wifi'] is None else 1
+	# # white_board = request.form['white_board']
+	# # telephone = request.form['telephone']
+	# # reception = request.form['reception']
+	# # ethernet = request.form['ethernet']
+	# # parking = request.form['parking']
+	# # refreshment = request.form['refreshment']
+	# # vending_machine = request.form['vending_machine']
+	# # projector = request.form['projector']
+	# # speaker = request.form['speaker']
+	# # fax_machine = request.form['fax_machine']
+	# photo_url = request.form['photo_url']
+	# start_datetime = request.form['start_datetime']
+	# end_datetime = request.form['end_datetime']
 
-	url = "https://maps.googleapis.com/maps/api/geocode/json"
+	# url = "https://maps.googleapis.com/maps/api/geocode/json"
 
-	querystring = {"address":location,"key":"AIzaSyBqvzDwbqKXjOPIztIAE7pg2U_q3sjSWGY"}
+	# querystring = {"address":location,"key":"AIzaSyBqvzDwbqKXjOPIztIAE7pg2U_q3sjSWGY"}
 
-	response = requests.request("GET", url, params=querystring)
+	# response = requests.request("GET", url, params=querystring)
 
-	latitude = response.text[response.text.find('location'):response.text.find('location_type')]
-	latitude = latitude[latitude.find('lat') + 7:latitude.find(',')]
-	longitude = response.text[response.text.find('location'):response.text.find('location_type')]
-	longitude = longitude[longitude.find('lng') + 7:longitude.find('}') - 1]
-	_latitude = str(latitude)
-	_longitude = str(longitude)
-	print(type(latitude))
+	# latitude = response.text[response.text.find('location'):response.text.find('location_type')]
+	# latitude = latitude[latitude.find('lat') + 7:latitude.find(',')]
+	# longitude = response.text[response.text.find('location'):response.text.find('location_type')]
+	# longitude = longitude[longitude.find('lng') + 7:longitude.find('}') - 1]
+	# _latitude = str(latitude)
+	# _longitude = str(longitude)
+	# print(type(latitude))
 
-	attr = uid + "', '" + name + "', '" +
-                           location + "', '" + price + "', '" + capacity +
-                           "', '" + description + "', '" + email + "', '" +
-                           phone_number + "', '" + wifi + "', '" + white_board +
-                           "', '" + telephone + "', '" + reception + "', '" +
-                           ethernet + "', '" + parking + "', '" + refreshment +
-                           "', '" + vending_machine + "', '" + projector +
-                           "', '" + speaker + "', '" + fax_machine + "', '" + str(_latitude) + "', '" + str(_longitude)
+	# attr = uid + "', '" + name + "', '" +
+ #                           location + "', '" + price + "', '" + capacity +
+ #                           "', '" + description + "', '" + email + "', '" +
+ #                           phone_number + "', '" + wifi + "', '" + white_board +
+ #                           "', '" + telephone + "', '" + reception + "', '" +
+ #                           ethernet + "', '" + parking + "', '" + refreshment +
+ #                           "', '" + vending_machine + "', '" + projector +
+ #                           "', '" + speaker + "', '" + fax_machine + "', '" + str(_latitude) + "', '" + str(_longitude)
 
-	conn = mysql.connect()
-	cursor = conn.cursor()
-	executeStatement = ("INSERT INTO Room(oid, name, location, " +
-                           "price, capacity, description, email, " +
-                           "phone_number, wifi, white_board, telephone, " +
-                           "reception, ethernet, parking, refreshment, " +
-                           "vending_machine, projector, speaker, fax_machine, " +
-                           "latitude, longitude)" +
-                           "VALUES('" +  + "')")
-	cursor.execute(executeStatement)
-	cursor.execute("SELECT rid FROM Room ORDER BY rid DESC LIMIT 1")
-	roomData = cursor.fetchone()
-	if roomData != None:
-		conn.commit()
-	else:
-		return 'Error: Unable to add room'
-	executeStatementPhoto = ("INSERT INTO Room_Photo VALUES(\'" + str(roomData[0]) + "\', \'" + photo_url + "\')")
-	cursor.execute(executeStatementPhoto)
-	cursor.execute("SELECT rid FROM Room_Photo WHERE rid =" + str(roomData[0]))
-	photoData = cursor.fetchone()
-	if photoData != None:
-		conn.commit()
-	else:
-		return 'Error: Unable to add room photo'
-	executeStatementAvailability = ("INSERT INTO Availability VALUES('" +
-                                 str(roomData[0]) + "', '" + start_datetime +
-                                 "', '" + end_datetime + "')")
-	cursor.execute(executeStatementAvailability)
-	cursor.execute("SELECT rid FROM Availability WHERE rid =" + str(roomData[0]))
-	availabilityData = cursor.fetchone()
-	if availabilityData != None:
-		conn.commit()
-		return str(roomData[0])      #room's id
-	else:
-		return 'Error: Unable to add room availability'
+	# conn = mysql.connect()
+	# cursor = conn.cursor()
+	# executeStatement = ("INSERT INTO Room(oid, name, location, " +
+ #                           "price, capacity, description, email, " +
+ #                           "phone_number, wifi, white_board, telephone, " +
+ #                           "reception, ethernet, parking, refreshment, " +
+ #                           "vending_machine, projector, speaker, fax_machine, " +
+ #                           "latitude, longitude)" +
+ #                           "VALUES('" +  + "')")
+	# cursor.execute(executeStatement)
+	# cursor.execute("SELECT rid FROM Room ORDER BY rid DESC LIMIT 1")
+	# roomData = cursor.fetchone()
+	# if roomData != None:
+	# 	conn.commit()
+	# else:
+	# 	return 'Error: Unable to add room'
+	# executeStatementPhoto = ("INSERT INTO Room_Photo VALUES(\'" + str(roomData[0]) + "\', \'" + photo_url + "\')")
+	# cursor.execute(executeStatementPhoto)
+	# cursor.execute("SELECT rid FROM Room_Photo WHERE rid =" + str(roomData[0]))
+	# photoData = cursor.fetchone()
+	# if photoData != None:
+	# 	conn.commit()
+	# else:
+	# 	return 'Error: Unable to add room photo'
+	# executeStatementAvailability = ("INSERT INTO Availability VALUES('" +
+ #                                 str(roomData[0]) + "', '" + start_datetime +
+ #                                 "', '" + end_datetime + "')")
+	# cursor.execute(executeStatementAvailability)
+	# cursor.execute("SELECT rid FROM Availability WHERE rid =" + str(roomData[0]))
+	# availabilityData = cursor.fetchone()
+	# if availabilityData != None:
+	# 	conn.commit()
+	# 	return str(roomData[0])      #room's id
+	# else:
+	# 	return 'Error: Unable to add room availability'
 
 @app.route('/api/book', methods=['POST'])
 def book():
