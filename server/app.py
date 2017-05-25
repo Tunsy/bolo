@@ -12,18 +12,78 @@ app.config['MYSQL_DATABASE_HOST'] = 'localhost' #'54.153.65.246'
 mysql.init_app(app)
 CORS(app)
 
+class JSONObject:
+	def __init__(self, d):
+		self.__dict__ = d
+
 @app.route('/')
 def show_index():
 	return render_template('index.html')
 
 @app.route('/api/search')
 def search():
-	location = request.form['location']
-	search_filters = request.form['filters']
-
+	latitude = request.args.get('lat')
+	longitude = request.args.get('lng')
+	search_filters = request.args.get('filters')
 	# TODO: Perform MySQL query and return the results
+	cursor = mysql.get_db().cursor()
+	query = "SELECT *, 69.0* DEGREES(ACOS(COS(RADIANS(latpoint))* COS(RADIANS(latitude))* COS(RADIANS(longpoint) - RADIANS(longitude))+ SIN(RADIANS(latpoint))* SIN(RADIANS(latitude)))) AS distance_in_miles "
+	query += "FROM room R, Room_Photo RP, availability A "
+	query += "JOIN (SELECT " + str(latitude) + " AS latpoint, " + str(longitude) + " AS longpoint) as p "
+	query += "WHERE R.rid = RP.rid AND A.rid = R.rid"
 
-	return
+	#search_filters = '{"capacity": "0", "price": 50, "rating": null, "wifi": 0, "white_board": 0, "telephone": 0, "reception": 0, "ethernet": 0, "parking": 0, "refreshment": 0, "vending_machine": 0, "projector": 0, "speaker": 0, "fax_machine": 0, "start_datetime": "2010-01-01 11:00:00", "end_datetime": "2017-12-12 16:00:00"}'
+	filters = json.loads(search_filters, object_hook=JSONObject)
+
+	if filters.capacity != None:
+		query += " AND capacity >= " + str(filters.capacity)
+	if filters.price != None:
+		query += " AND price <= " + str(filters.price)
+	if filters.rating != None:
+		query += " AND rating >= " + str(filters.rating)
+	if filters.wifi == 1:
+		query += " AND wifi = " + str(filters.wifi)
+	if filters.white_board == 1:
+		query += " AND white_board = " + str(filters.white_board)
+	if filters.telephone == 1:
+		query += " AND telephone = " + str(filters.telephone)
+	if filters.reception == 1:
+		query += " AND reception = " + str(filters.reception)
+	if filters.ethernet == 1:
+		query += " AND ethernet = " + str(filters.ethernet)
+	if filters.parking == 1:
+		query += " AND parking = " + str(filters.parking)
+	if filters.refreshment == 1:
+		query += " AND refreshment = " + str(filters.refreshment)
+	if filters.vending_machine == 1:
+		query += " AND vending_machine = " + str(filters.vending_machine)
+	if filters.projector == 1:
+		query += " AND projector = " + str(filters.projector)
+	if filters.speaker == 1:
+		query += " AND speaker = " + str(filters.speaker)
+	if filters.fax_machine == 1:
+		query += " AND fax_machine = " + str(filters.fax_machine)
+	if filters.start_datetime != None:
+		query += " AND start_datetime <= '" + str(filters.start_datetime) + "'"
+	if filters.end_datetime != None:
+		query += " AND end_datetime >= '" + str(filters.end_datetime) + "'"
+
+	query += " ORDER BY distance_in_miles"
+	print(query)
+	cursor.execute(query)
+	result = cursor.fetchall()
+	searchList = []
+	if result:
+		for row in result:
+			if row[20] == None:
+				searchingDict = {'rid':row[0], 'oid':row[1], 'name':row[2], 'location':row[3], 'price':row[4], 'capacity':row[5], 'description':row[6], 'email':row[7], 'phone_number':row[8], 'rating':0, 'photo':row[24], 'start_datetime':str(row[26]), 'end_datetime':str(row[27]), 'distance':row[30]}
+			else:
+				searchingDict = {'rid':row[0], 'oid':row[1], 'name':row[2], 'location':row[3], 'price':row[4], 'capacity':row[5], 'description':row[6], 'email':row[7], 'phone_number':row[8], 'rating':row[20], 'photo':row[24], 'start_datetime':str(row[26]), 'end_datetime':str(row[27]), 'distance':row[30]}
+
+			searchList.append(searchingDict)
+		return json.dumps(searchList)
+	else:
+		return 'No Matching Results'
 
 @app.route('/api/getListing')
 def get_listing():
@@ -35,7 +95,7 @@ def get_listing():
 		'capacity':result[5], 'description':result[6], 'email':result[7], 'phone_number':result[8],
 		'amenities': {'wifi':result[9], 'white_board':result[10], 'telephone':result[11], 'reception':result[12],
 		'ethernet':result[13], 'parking':result[14], 'refreshment':result[15], 'vending_machine':result[16],
-		'projector':result[17], 'speaker':result[18], 'fax_machine':result[19]}, 'photo':result[21]})
+		'projector':result[17], 'speaker':result[18], 'fax_machine':result[19]}, 'photo':result[24]})
 
 @app.route('/signup')
 def show_sign_up():
@@ -212,7 +272,7 @@ def show_profile():
 
 @app.route('/api/getUser')
 def get_user():
-	uid = request.form['uid']
+	uid = request.args.get('uid')
 	cursor = mysql.get_db().cursor()
 	cursor.execute("SELECT * FROM User where uid='" + uid + "'")
 	data = cursor.fetchone()
@@ -231,11 +291,21 @@ def get_reservations():
 	bookingList = []
 	if result:
 		for row in result:
-			bookingDict = {'bid':row[0], 'rid':row[2], 'grand_total_price':row[3], 'subtotal_price':row[4], 'start_datetime':str(row[5]), 'end_datetime':str(row[6]), 'name':row[9], 'location':row[10], 'photo':row[28]}
+			bookingDict = {'bid':row[0], 'rid':row[2], 'grand_total_price':row[3], 'subtotal_price':row[4], 'start_datetime':str(row[5]), 'end_datetime':str(row[6]), 'name':row[9], 'location':row[10], 'photo':row[31]}
 			bookingList.append(bookingDict)
 			return json.dumps(bookingList)
 	else:
 		return ''
+
+@app.route('/api/getReservation')
+def get_reservation():
+	conn = mysql.connect()
+	bid = request.args.get('bid')
+	cursor = conn.cursor()
+
+	cursor.execute("SELECT * FROM Booking B, Room R WHERE B.bid = " + bid + " AND R.rid = B.rid")
+	data = cursor.fetchone()
+	return json.dumps({'bid':data[0], 'rid':data[2], 'grand_total_price':data[3], 'subtotal_price':data[4], 'start_datetime':str(data[5]), 'end_datetime':str(data[6]), 'name':data[9], 'location':data[10], 'email':data[14], 'phone':data[15]})
 
 if __name__ == '__main__':
 	app.run()

@@ -1,18 +1,37 @@
 <ion-view view-title="BOLO">
 	<ion-content>
-		<div class="list list-inset">
+		<div class="list list-inset main-list">
 			<label class="item item-input">
 				<i class="icon ion-search placeholder-icon"></i>
 				<input type="text" placeholder="Search for Locations" value="{{ currentLocation }}">
 			</label>
 		</div>
-		<div class="list list-inset">
+		<div class="list list-inset main-list">
 			<label class="item item-input">
-				<i class="icon ion-search placeholder-icon"></i>
-				<input type="text" placeholder="Start Date">
+				<i class="icon ion-calendar placeholder-icon"></i>
+				<input type="text" ng-click="setStartDate()" readonly placeholder="Start Date" ng-model="getStartDateTime">
 			</label>
 		</div>
-		<div class="list card">
+		<div class="list list-inset main-list">
+			<label class="item item-input">
+				<i class="icon ion-calendar placeholder-icon"></i>
+				<input type="text" ng-click="setEndDate()" readonly placeholder="End Date" ng-model="getEndDateTime">
+			</label>
+		</div>
+		<div class="list card" ng-repeat="x in listing">
+			<a href="#/app/listing/{{ x.rid }}" class="item item-image">
+				<img src="{{ x.photo }}">
+			</a>
+			<div class="item">
+				<h2>{{ x.name }}</h2>
+				<p>{{ x.description }}</p>
+			</div>
+			<a class="item item-icon-left assertive" href="#">
+				<i class="icon ion-pricetag"></i>
+				Reserve for ${{ x.price }}/day
+			</a>
+		</div>
+		<!-- <div class="list card">
 			<a href="#/app/listing/1" class="item item-image">
 				<img src="https://images.unsplash.com/photo-1431540015161-0bf868a2d407?dpr=2&auto=format&fit=crop&w=1500&h=1000&q=80&cs=tinysrgb&crop=&bg=">
 			</a>
@@ -37,6 +56,6 @@
 				<i class="icon ion-pricetag"></i>
 				Reserve for $50/day
 			</a>
-		</div>
+		</div> -->
 	</ion-content>
 </ion-view>

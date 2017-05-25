@@ -2,6 +2,23 @@
 	min-height: 100%;
 }
 
+.main-list {
+	margin-top: 20px;
+	margin-bottom: 0;
+}
+
+.main-list+.main-list {
+	margin: 10px;
+}
+
 .listing-details {
 	padding: 3.5% 5% 50px 5%;
+}
+
+input[readonly]:not(.cloned-text-input) {
+	background: inherit;
+}
+
+#reserve h3 {
+	margin: 10px;
 }

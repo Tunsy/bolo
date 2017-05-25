@@ -6,9 +6,25 @@
     </div>
   </ion-header-bar>
   <ion-content>
-    <h3>Reserving {{ listingData.name }}</h3>
-    <form ng-submit="reserve()">
-      
-    </form>
+    <div id="reserve">
+      <form>
+        <h3>Reserving {{ listingData.name }}</h3>
+        <div class="list list-inset main-list">
+          <label class="item item-input">
+            <i class="icon ion-calendar placeholder-icon"></i>
+            <input type="text" ng-click="setStartDate()" readonly placeholder="Start Date" ng-model="getStartDateTime">
+          </label>
+        </div>
+        <div class="list list-inset main-list">
+          <label class="item item-input">
+            <i class="icon ion-calendar placeholder-icon"></i>
+            <input type="text" ng-click="setEndDate()" readonly placeholder="End Date" ng-model="getEndDateTime">
+          </label>
+        </div>
+      </form>
+    </div>
   </ion-content>
+  <div ng-click="reserve()" class="bar bar-footer bar-balanced">
+    <div class="title"><i class="icon ion-pricetag"></i> Reserve for ${{ getTotalPrice() }}</div>
+  </div>
 </ion-modal-view>
