@@ -33,6 +33,32 @@ angular.module('bolo.controllers', [])
   $scope.getStartDateTime = 'From: ' + $scope.startDateTime;
   $scope.getEndDateTime = 'To: ' + $scope.endDateTime;
 
+  $scope.capacity = 0;
+  $scope.price = 100;
+  $scope.rating = null;
+  $scope.wifi = 0;
+  $scope.white_board = 0;
+  $scope.telephone = 0;
+  $scope.reception = 0;
+  $scope.ethernet = 0;
+  $scope.parking = 0;
+  $scope.refreshment = 0;
+  $scope.vending_machine = 0;
+  $scope.projector = 0;
+  $scope.speaker = 0;
+  $scope.fax_machine = 0;
+  // $scope.lat = 33.6415565;
+  // $scope.lng = -117.8252812;
+  $scope.listing = [];
+
+  var searchListings = function() {
+    var searchUrl = API_URL + '/api/search?lat=' + $scope.lat + '&lng=' + $scope.lng + '&filters={"capacity":' + $scope.capacity + ', "price": ' + $scope.price + ', "rating": ' + $scope.rating + ', "wifi": ' + $scope.wifi + ', "white_board": ' + $scope.white_board + ', "telephone": ' + $scope.telephone + ', "reception": ' + $scope.reception + ', "ethernet": ' + $scope.ethernet + ', "parking": ' + $scope.parking + ', "refreshment": ' + $scope.refreshment + ', "vending_machine": ' + $scope.vending_machine + ', "projector": ' + $scope.projector + ', "speaker": ' + $scope.speaker + ', "fax_machine": ' + $scope.fax_machine + ', "start_datetime": "' + new Date($scope.startDateTime).getFullYear() + '-' + (new Date($scope.startDateTime).getMonth() + 1) + '-' + new Date($scope.startDateTime).getDate() + ' ' + new Date($scope.startDateTime).getHours() + ':' + new Date($scope.startDateTime).getMinutes() + ':' + new Date($scope.startDateTime).getSeconds() + '", "end_datetime": "' + new Date($scope.endDateTime).getFullYear() + '-' + (new Date($scope.endDateTime).getMonth() + 1) + '-' + new Date($scope.endDateTime).getDate() + ' ' + new Date($scope.endDateTime).getHours() + ':' + new Date($scope.endDateTime).getMinutes() + ':' + new Date($scope.endDateTime).getSeconds() + '"}';
+    $http.get(searchUrl).then(function(response) {
+      console.log(response);
+      $scope.listing = response.data;
+    });
+  }
+
   // Form data for the login modal
   $scope.loginData = {};
 
@@ -112,6 +138,11 @@ angular.module('bolo.controllers', [])
     });
   };
 
+  $scope.getTotalPrice = function() {
+    if ($scope.listingData)
+      return $scope.listingData.price * (new Date($scope.endDateTime) - new Date($scope.startDateTime))/(1000*60*60);
+  }
+
   $scope.reserve = function() {
     
   };
@@ -121,13 +152,15 @@ angular.module('bolo.controllers', [])
     $cordovaGeolocation.getCurrentPosition({
       enableHighAccuracy: false
     }).then(function(position) {
-      var lat = position.coords.latitude;
-      var lng = position.coords.longitude;
+      $scope.lat = position.coords.latitude;
+      $scope.lng = position.coords.longitude;
 
       // Convert coordinates into city
-      $http.get('https://maps.googleapis.com/maps/api/geocode/json?latlng=' + lat + ',' + lng + '&key=AIzaSyBqvzDwbqKXjOPIztIAE7pg2U_q3sjSWGY').then(function(response) {
+      $http.get('https://maps.googleapis.com/maps/api/geocode/json?latlng=' + $scope.lat + ',' + $scope.lng + '&key=AIzaSyBqvzDwbqKXjOPIztIAE7pg2U_q3sjSWGY').then(function(response) {
         $scope.currentLocation = response.data.results[1].formatted_address;
       })
+
+      searchListings();
     }, function(err) {
       console.log(err);
     })
@@ -174,6 +207,7 @@ angular.module('bolo.controllers', [])
   $http.get(API_URL + '/api/getListing?listing_id=' + $stateParams.listingId).then(function(response){
     $scope.listingData = response.data;
     $rootScope.listingData = response.data;
+    console.log(response.data);
     $scope.amenities = [];
     for (var i in response.data.amenities) {
       if (response.data.amenities[i]) {
